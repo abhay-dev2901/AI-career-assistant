@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter, Lora } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { AppShell } from '@/components/app-shell'
+import { AuthProvider } from '@/context/auth-context'
 import './globals.css'
 
 const _inter = Inter({ subsets: ["latin"] });
@@ -28,7 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="font-sans antialiased">
-        <AppShell>{children}</AppShell>
+        <AuthProvider>
+          <AppShell>{children}</AppShell>
+        </AuthProvider>
         <Analytics />
       </body>
     </html>

@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { useEffect, useState } from "react"
 import {
   Briefcase,
   FileText,
@@ -9,78 +10,12 @@ import {
   Search,
   Sparkles,
   ArrowRight,
+  Loader2,
 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-
-const stats = [
-  {
-    title: "Jobs Found",
-    value: "248",
-    icon: Briefcase,
-    change: "+12 this week",
-    color: "text-primary",
-    bgColor: "bg-primary/10",
-  },
-  {
-    title: "Resume Score",
-    value: "87%",
-    icon: FileText,
-    change: "+5% improvement",
-    color: "text-success",
-    bgColor: "bg-success/10",
-  },
-  {
-    title: "Interviews Done",
-    value: "14",
-    icon: MessageSquare,
-    change: "3 scheduled",
-    color: "text-warning",
-    bgColor: "bg-warning/10",
-  },
-  {
-    title: "Streak Days",
-    value: "7",
-    icon: Flame,
-    change: "Keep it up!",
-    color: "text-destructive",
-    bgColor: "bg-destructive/10",
-  },
-]
-
-const recentActivity = [
-  {
-    action: "Applied to Senior Frontend Developer",
-    company: "TechCorp Inc.",
-    time: "2 hours ago",
-    type: "application",
-  },
-  {
-    action: "Resume analyzed for Product Designer",
-    company: "DesignStudio",
-    time: "5 hours ago",
-    type: "resume",
-  },
-  {
-    action: "Completed mock interview",
-    company: "System Design - Hard",
-    time: "1 day ago",
-    type: "interview",
-  },
-  {
-    action: "Saved job posting",
-    company: "InnovateTech",
-    time: "2 days ago",
-    type: "saved",
-  },
-  {
-    action: "Updated resume skills section",
-    company: "Profile",
-    time: "3 days ago",
-    type: "profile",
-  },
-]
+import { useAuth } from "@/context/auth-context"
 
 const quickActions = [
   {
@@ -107,6 +42,71 @@ const quickActions = [
 ]
 
 export function DashboardContent() {
+  const { user, loading } = useAuth()
+  const [stats, setStats] = useState([
+    {
+      title: "Jobs Found",
+      value: "0",
+      icon: Briefcase,
+      change: "+0 this week",
+      color: "text-primary",
+      bgColor: "bg-primary/10",
+    },
+    {
+      title: "Resume Score",
+      value: "—",
+      icon: FileText,
+      change: "Pending analysis",
+      color: "text-success",
+      bgColor: "bg-success/10",
+    },
+    {
+      title: "Interviews Done",
+      value: "0",
+      icon: MessageSquare,
+      change: "0 scheduled",
+      color: "text-warning",
+      bgColor: "bg-warning/10",
+    },
+    {
+      title: "Profile Skills",
+      value: "0",
+      icon: Flame,
+      change: "Add your skills",
+      color: "text-destructive",
+      bgColor: "bg-destructive/10",
+    },
+  ])
+
+  const recentActivity = []
+
+  useEffect(() => {
+    if (user) {
+      // Update stats based on user data
+      const skillsCount = user.skills?.length || 0
+      setStats((prev) =>
+        prev.map((stat) => {
+          if (stat.title === "Profile Skills") {
+            return {
+              ...stat,
+              value: skillsCount.toString(),
+              change: skillsCount > 0 ? `${skillsCount} skills added` : "Add your skills",
+            }
+          }
+          return stat
+        })
+      )
+    }
+  }, [user])
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-6">
       {/* Welcome Card */}
@@ -114,10 +114,10 @@ export function DashboardContent() {
         <CardContent className="flex items-center justify-between p-6">
           <div className="space-y-2">
             <h2 className="text-2xl font-bold font-serif text-foreground">
-              Good morning, Alex!
+              Good morning, {user?.firstName || "User"}!
             </h2>
             <p className="text-muted-foreground">
-              Your career journey is progressing well. Let&apos;s make today count.
+              {user?.bio || "Your career journey starts here. Let's make today count."}
             </p>
           </div>
           <div className="hidden md:flex h-16 w-16 items-center justify-center rounded-full bg-primary/20">
@@ -152,38 +152,40 @@ export function DashboardContent() {
 
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Recent Activity */}
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 font-serif">
-              <span>Recent Activity</span>
-              <Badge variant="secondary" className="text-xs">
-                {recentActivity.length} items
-              </Badge>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recentActivity.map((activity, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between rounded-lg border border-border bg-card p-4 transition-all hover:bg-muted/50"
-                >
-                  <div className="space-y-1">
-                    <p className="font-medium text-foreground">
-                      {activity.action}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {activity.company}
-                    </p>
+        {recentActivity.length > 0 && (
+          <Card className="lg:col-span-2">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 font-serif">
+                <span>Recent Activity</span>
+                <Badge variant="secondary" className="text-xs">
+                  {recentActivity.length} items
+                </Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {recentActivity.map((activity: any, index: number) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between rounded-lg border border-border bg-card p-4 transition-all hover:bg-muted/50"
+                  >
+                    <div className="space-y-1">
+                      <p className="font-medium text-foreground">
+                        {activity.action}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {activity.company}
+                      </p>
+                    </div>
+                    <span className="text-xs text-muted-foreground">
+                      {activity.time}
+                    </span>
                   </div>
-                  <span className="text-xs text-muted-foreground">
-                    {activity.time}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Quick Actions */}
         <Card>

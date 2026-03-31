@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {
   User,
   Bell,
@@ -13,6 +13,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
@@ -23,10 +24,19 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useTheme } from "@/components/theme-provider"
+import { useAuth } from "@/context/auth-context"
 
 export function SettingsContent() {
   const { theme, setTheme } = useTheme()
+  const { user, token, updateProfile } = useAuth()
   const [isSaving, setIsSaving] = useState(false)
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    bio: "",
+    phone: "",
+    location: "",
+  })
   const [notifications, setNotifications] = useState({
     email: true,
     push: false,
@@ -34,11 +44,35 @@ export function SettingsContent() {
     weeklyReport: true,
   })
 
-  const handleSave = () => {
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        bio: user.bio || "",
+        phone: user.phone || "",
+        location: user.location || "",
+      })
+    }
+  }, [user])
+
+  const handleSave = async () => {
     setIsSaving(true)
-    setTimeout(() => {
+    try {
+      await updateProfile(formData)
+    } catch (error) {
+      console.error("Failed to save profile:", error)
+    } finally {
       setIsSaving(false)
-    }, 1500)
+    }
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target
+    setFormData((prev) => ({
+      ...prev,
+      [id]: value,
+    }))
   }
 
   return (
@@ -84,24 +118,63 @@ export function SettingsContent() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="firstName">First Name</Label>
-                  <Input id="firstName" defaultValue="Alex" />
+                  <Input
+                    id="firstName"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    placeholder="Your first name"
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="lastName">Last Name</Label>
-                  <Input id="lastName" defaultValue="Johnson" />
+                  <Input
+                    id="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    placeholder="Your last name"
+                  />
                 </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" defaultValue="alex@example.com" />
+                <Input
+                  id="email"
+                  type="email"
+                  value={user?.email || ""}
+                  disabled
+                  placeholder="Your email"
+                />
+                <p className="text-xs text-muted-foreground">Email cannot be changed</p>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="title">Job Title</Label>
-                <Input id="title" defaultValue="Senior Frontend Developer" />
+                <Label htmlFor="bio">Bio</Label>
+                <Textarea
+                  id="bio"
+                  value={formData.bio}
+                  onChange={handleInputChange}
+                  placeholder="Tell us about yourself..."
+                  rows={4}
+                />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="location">Location</Label>
-                <Input id="location" defaultValue="San Francisco, CA" />
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="phone">Phone</Label>
+                  <Input
+                    id="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    placeholder="Your phone number"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="location">Location</Label>
+                  <Input
+                    id="location"
+                    value={formData.location}
+                    onChange={handleInputChange}
+                    placeholder="City, Country"
+                  />
+                </div>
               </div>
               <Button onClick={handleSave} disabled={isSaving}>
                 {isSaving ? (
