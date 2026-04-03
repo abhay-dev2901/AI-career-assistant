@@ -42,7 +42,7 @@ export default function SignupPage() {
         formData.password,
         formData.passwordConfirm
       )
-      router.push('/dashboard')
+      router.push('/')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Signup failed')
     } finally {

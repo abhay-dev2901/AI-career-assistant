@@ -32,7 +32,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
     if (isAuthenticated && isPublicRoute) {
       // Redirect to dashboard if authenticated and on auth route
-      router.push('/dashboard')
+      router.push('/')
       return
     }
 

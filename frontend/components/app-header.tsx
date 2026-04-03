@@ -2,6 +2,7 @@
 
 
 import { Bell, Moon, Sun } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -13,15 +14,31 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useTheme } from "@/components/theme-provider"
+import { useAuth } from "@/context/auth-context"
 
 export function AppHeader() {
   const { setTheme, resolvedTheme } = useTheme()
+  const { user, logout } = useAuth()
+  const router = useRouter()
+
+  // Generate initials from user's name
+  const getInitials = (firstName?: string, lastName?: string) => {
+    if (!firstName && !lastName) return "U"
+    const first = firstName?.charAt(0) || ""
+    const last = lastName?.charAt(0) || ""
+    return (first + last).toUpperCase()
+  }
+
+  const handleLogout = () => {
+    logout()
+    router.push("/login")
+  }
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-background/95 px-6 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex items-center gap-4">
         <h1 className="text-lg font-semibold font-serif text-foreground">
-          Welcome back, Alex
+          Welcome back, {user?.firstName || "User"}
         </h1>
       </div>
 
@@ -56,7 +73,7 @@ export function AppHeader() {
               <Avatar className="h-9 w-9">
                 <AvatarImage src="/avatar.png" alt="User" />
                 <AvatarFallback className="bg-primary text-primary-foreground">
-                  AJ
+                  {getInitials(user?.firstName, user?.lastName)}
                 </AvatarFallback>
               </Avatar>
             </Button>
@@ -64,9 +81,13 @@ export function AppHeader() {
           <DropdownMenuContent className="w-56" align="end" forceMount>
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium">Alex Johnson</p>
+                <p className="text-sm font-medium">
+                  {user?.firstName && user?.lastName
+                    ? `${user.firstName} ${user.lastName}`
+                    : "User"}
+                </p>
                 <p className="text-xs text-muted-foreground">
-                  alex@example.com
+                  {user?.email || "user@example.com"}
                 </p>
               </div>
             </DropdownMenuLabel>
@@ -75,7 +96,7 @@ export function AppHeader() {
             <DropdownMenuItem>Billing</DropdownMenuItem>
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Log out</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>Log out</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
