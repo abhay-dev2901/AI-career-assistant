@@ -1,8 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import pool from './config/db.js';
-import initializeDatabase from './config/init-db.js';
+import { prisma } from './lib/prisma.js';
 import authRoutes from './routes/auth.js';
 
 dotenv.config();
@@ -22,12 +21,9 @@ app.use(express.urlencoded({ extended: true }));
 // Initialize database on startup
 async function startServer() {
   try {
-    // Test database connection
-    const result = await pool.query('SELECT NOW()');
+    // Test Prisma connection
+    await prisma.$queryRaw`SELECT NOW()`;
     console.log('✓ Database connection successful');
-
-    // Initialize database schema
-    await initializeDatabase();
 
     // Mount routes
     app.use('/api/auth', authRoutes);
@@ -56,6 +52,19 @@ async function startServer() {
       console.log(`📊 Frontend URL: ${process.env.FRONTEND_URL}`);
       console.log(`🔗 Database: Neon PostgreSQL (${process.env.NODE_ENV})`);
       console.log('='.repeat(50) + '\n');
+    });
+
+    // Graceful shutdown
+    process.on('SIGINT', async () => {
+      console.log('\n\nShutting down gracefully...');
+      await prisma.$disconnect();
+      process.exit(0);
+    });
+
+    process.on('SIGTERM', async () => {
+      console.log('\n\nShutting down gracefully...');
+      await prisma.$disconnect();
+      process.exit(0);
     });
   } catch (error) {
     console.error('Failed to start server:', error);

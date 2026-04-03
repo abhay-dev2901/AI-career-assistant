@@ -83,7 +83,7 @@ export const login = async (req, res) => {
     }
 
     // Check if password matches
-    const isMatch = await User.comparePassword(password, user.password_hash);
+    const isMatch = await User.comparePassword(password, user.passwordHash);
 
     if (!isMatch) {
       return res.status(401).json({
@@ -223,7 +223,7 @@ export const changePassword = async (req, res) => {
     }
 
     // Verify current password
-    const isMatch = await User.comparePassword(currentPassword, user.password_hash);
+    const isMatch = await User.comparePassword(currentPassword, user.passwordHash);
 
     if (!isMatch) {
       return res.status(401).json({
