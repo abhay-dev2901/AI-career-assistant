@@ -15,7 +15,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
-import { Progress } from "@/components/ui/progress"
 
 const mockResults = {
   score: 78,
@@ -100,23 +99,17 @@ export function ResumeMatcherContent() {
   }
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return "text-success"
-    if (score >= 60) return "text-warning"
-    return "text-destructive"
-  }
-
-  const getScoreTrackColor = (score: number) => {
-    if (score >= 80) return "[&>div]:bg-success"
-    if (score >= 60) return "[&>div]:bg-warning"
-    return "[&>div]:bg-destructive"
+    if (score >= 80) return "text-emerald-400"
+    if (score >= 60) return "text-amber-400"
+    return "text-red-400"
   }
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-2xl font-bold font-serif text-foreground">Resume Matcher</h2>
-        <p className="text-muted-foreground">
+        <h2 className="midnight-page-title">Resume Matcher</h2>
+        <p className="midnight-page-subtitle mt-1">
           Upload your resume and paste a job description to see how well they match.
         </p>
       </div>
@@ -124,10 +117,10 @@ export function ResumeMatcherContent() {
       {/* Upload Panels */}
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Resume Upload */}
-        <Card>
+        <Card className="midnight-glass-card">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 font-serif">
-              <FileText className="h-5 w-5 text-primary" />
+            <CardTitle className="midnight-card-title flex items-center gap-2">
+              <FileText className="h-5 w-5 text-[#3b82f6]" />
               Your Resume
             </CardTitle>
           </CardHeader>
@@ -136,12 +129,12 @@ export function ResumeMatcherContent() {
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
-              className={`relative flex min-h-[200px] cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed transition-all ${
+              className={`relative flex min-h-[200px] cursor-pointer flex-col items-center justify-center rounded-[12px] border-2 border-dashed transition-all duration-200 ease-in-out ${
                 isDragging
-                  ? "border-primary bg-primary/10"
+                  ? "border-[#3b82f6] bg-[rgba(59,130,246,0.12)]"
                   : file
-                    ? "border-success bg-success/10"
-                    : "border-border hover:border-primary/50 hover:bg-muted/50"
+                    ? "border-emerald-500/50 bg-[rgba(34,197,94,0.1)]"
+                    : "border-[rgba(255,255,255,0.12)] hover:border-[rgba(59,130,246,0.45)] hover:bg-[rgba(255,255,255,0.04)]"
               }`}
             >
               <input
@@ -152,17 +145,17 @@ export function ResumeMatcherContent() {
               />
               {file ? (
                 <div className="flex flex-col items-center gap-2 text-center">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-success/20">
-                    <CheckCircle2 className="h-6 w-6 text-success" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[rgba(34,197,94,0.15)]">
+                    <CheckCircle2 className="h-6 w-6 text-emerald-400" />
                   </div>
-                  <p className="font-medium text-foreground">{file.name}</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="font-medium text-[#f1f5f9]">{file.name}</p>
+                  <p className="text-sm text-[#64748b]">
                     {(file.size / 1024).toFixed(1)} KB
                   </p>
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="mt-2"
+                    className="mt-2 rounded-[8px] text-[#94a3b8] hover:bg-[rgba(255,255,255,0.06)] hover:text-[#f1f5f9]"
                     onClick={(e) => {
                       e.stopPropagation()
                       setFile(null)
@@ -175,13 +168,13 @@ export function ResumeMatcherContent() {
                 </div>
               ) : (
                 <div className="flex flex-col items-center gap-2 text-center p-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
-                    <Upload className="h-6 w-6 text-muted-foreground" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[rgba(255,255,255,0.06)]">
+                    <Upload className="h-6 w-6 text-[#64748b]" />
                   </div>
-                  <p className="font-medium text-foreground">
+                  <p className="font-medium text-[#f1f5f9]">
                     Drag and drop your resume
                   </p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-[#64748b]">
                     or click to browse (PDF, DOC, DOCX)
                   </p>
                 </div>
@@ -191,10 +184,10 @@ export function ResumeMatcherContent() {
         </Card>
 
         {/* Job Description */}
-        <Card>
+        <Card className="midnight-glass-card">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 font-serif">
-              <Sparkles className="h-5 w-5 text-primary" />
+            <CardTitle className="midnight-card-title flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-[#60a5fa]" />
               Job Description
             </CardTitle>
           </CardHeader>
@@ -203,7 +196,7 @@ export function ResumeMatcherContent() {
               placeholder="Paste the job description here..."
               value={jobDescription}
               onChange={(e) => setJobDescription(e.target.value)}
-              className="min-h-[200px] resize-none"
+              className="min-h-[200px] resize-none rounded-[12px] border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] text-[#f1f5f9] placeholder:text-[#64748b] focus-visible:border-[rgba(59,130,246,0.45)] focus-visible:ring-[rgba(59,130,246,0.2)]"
             />
           </CardContent>
         </Card>
@@ -215,7 +208,7 @@ export function ResumeMatcherContent() {
           size="lg"
           onClick={handleAnalyze}
           disabled={!file || !jobDescription.trim() || isAnalyzing}
-          className="px-8"
+          className="rounded-[8px] px-8 transition-all duration-200 ease-in-out"
         >
           {isAnalyzing ? (
             <>
@@ -235,11 +228,10 @@ export function ResumeMatcherContent() {
       {results && (
         <div className="space-y-6">
           {/* Score Card */}
-          <Card className="overflow-hidden">
+          <Card className="midnight-glass-card overflow-hidden">
             <CardContent className="p-0">
               <div className="flex flex-col md:flex-row">
-                {/* Score Circle */}
-                <div className="flex flex-col items-center justify-center bg-muted/50 p-8 md:w-1/3">
+                <div className="flex flex-col items-center justify-center border-b border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] p-8 md:w-1/3 md:border-b-0 md:border-r">
                   <div className="relative flex h-40 w-40 items-center justify-center">
                     <svg className="h-40 w-40 -rotate-90 transform">
                       <circle
@@ -249,7 +241,7 @@ export function ResumeMatcherContent() {
                         stroke="currentColor"
                         strokeWidth="12"
                         fill="none"
-                        className="text-muted"
+                        className="text-[rgba(255,255,255,0.12)]"
                       />
                       <circle
                         cx="80"
@@ -266,13 +258,11 @@ export function ResumeMatcherContent() {
                     </svg>
                     <div className="absolute flex flex-col items-center">
                       <span
-                        className={`text-4xl font-bold font-serif ${getScoreColor(results.score)}`}
+                        className={`text-4xl font-bold ${getScoreColor(results.score)}`}
                       >
                         {results.score}%
                       </span>
-                      <span className="text-sm text-muted-foreground">
-                        Match Score
-                      </span>
+                      <span className="text-sm text-[#64748b]">Match Score</span>
                     </div>
                   </div>
                 </div>
@@ -281,8 +271,8 @@ export function ResumeMatcherContent() {
                 <div className="flex-1 p-6 space-y-6">
                   {/* Matched Skills */}
                   <div>
-                    <h4 className="flex items-center gap-2 text-sm font-medium text-foreground mb-3">
-                      <CheckCircle2 className="h-4 w-4 text-success" />
+                    <h4 className="mb-3 flex items-center gap-2 text-sm font-medium text-[#f1f5f9]">
+                      <CheckCircle2 className="h-4 w-4 text-emerald-400" />
                       Matched Skills ({results.matchedSkills.length})
                     </h4>
                     <div className="flex flex-wrap gap-2">
@@ -290,7 +280,7 @@ export function ResumeMatcherContent() {
                         <Badge
                           key={skill}
                           variant="secondary"
-                          className="bg-success/20 text-success border-success/30"
+                          className="rounded-[8px] border border-emerald-500/30 bg-[rgba(34,197,94,0.12)] text-emerald-300"
                         >
                           {skill}
                         </Badge>
@@ -300,8 +290,8 @@ export function ResumeMatcherContent() {
 
                   {/* Missing Skills */}
                   <div>
-                    <h4 className="flex items-center gap-2 text-sm font-medium text-foreground mb-3">
-                      <XCircle className="h-4 w-4 text-destructive" />
+                    <h4 className="mb-3 flex items-center gap-2 text-sm font-medium text-[#f1f5f9]">
+                      <XCircle className="h-4 w-4 text-red-400" />
                       Missing Skills ({results.missingSkills.length})
                     </h4>
                     <div className="flex flex-wrap gap-2">
@@ -309,7 +299,7 @@ export function ResumeMatcherContent() {
                         <Badge
                           key={skill}
                           variant="secondary"
-                          className="bg-destructive/20 text-destructive border-destructive/30"
+                          className="rounded-[8px] border border-red-500/35 bg-[rgba(239,68,68,0.1)] text-red-300"
                         >
                           {skill}
                         </Badge>
@@ -322,10 +312,10 @@ export function ResumeMatcherContent() {
           </Card>
 
           {/* AI Suggestions */}
-          <Card>
+          <Card className="midnight-glass-card">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 font-serif">
-                <Lightbulb className="h-5 w-5 text-warning" />
+              <CardTitle className="midnight-card-title flex items-center gap-2">
+                <Lightbulb className="h-5 w-5 text-amber-400" />
                 AI Suggestions
               </CardTitle>
             </CardHeader>
@@ -334,12 +324,10 @@ export function ResumeMatcherContent() {
                 {results.suggestions.map((suggestion, index) => (
                   <div
                     key={index}
-                    className="rounded-lg border border-border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-sm"
+                    className="rounded-[12px] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] p-4 transition-all duration-200 ease-in-out hover:border-[rgba(59,130,246,0.35)] hover:shadow-[0_0_20px_rgba(59,130,246,0.08)]"
                   >
-                    <h5 className="font-medium text-foreground">
-                      {suggestion.title}
-                    </h5>
-                    <p className="mt-1 text-sm text-muted-foreground">
+                    <h5 className="font-medium text-[#f1f5f9]">{suggestion.title}</h5>
+                    <p className="mt-1 text-sm text-[#64748b]">
                       {suggestion.description}
                     </p>
                   </div>

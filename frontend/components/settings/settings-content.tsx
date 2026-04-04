@@ -5,7 +5,6 @@ import {
   User,
   Bell,
   Shield,
-  Palette,
   Save,
   Loader2,
 } from "lucide-react"
@@ -16,19 +15,10 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { useTheme } from "@/components/theme-provider"
 import { useAuth } from "@/context/auth-context"
 
 export function SettingsContent() {
-  const { theme, setTheme } = useTheme()
-  const { user, token, updateProfile } = useAuth()
+  const { user, updateProfile } = useAuth()
   const [isSaving, setIsSaving] = useState(false)
   const [formData, setFormData] = useState({
     firstName: "",
@@ -77,16 +67,15 @@ export function SettingsContent() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div>
-        <h2 className="text-2xl font-bold font-serif text-foreground">Settings</h2>
-        <p className="text-muted-foreground">
+        <h2 className="midnight-page-title">Settings</h2>
+        <p className="midnight-page-subtitle mt-1">
           Manage your account settings and preferences.
         </p>
       </div>
 
       <Tabs defaultValue="profile" className="space-y-6">
-        <TabsList>
+        <TabsList className="flex w-full flex-wrap gap-1">
           <TabsTrigger value="profile" className="flex items-center gap-2">
             <User className="h-4 w-4" />
             Profile
@@ -94,10 +83,6 @@ export function SettingsContent() {
           <TabsTrigger value="notifications" className="flex items-center gap-2">
             <Bell className="h-4 w-4" />
             Notifications
-          </TabsTrigger>
-          <TabsTrigger value="appearance" className="flex items-center gap-2">
-            <Palette className="h-4 w-4" />
-            Appearance
           </TabsTrigger>
           <TabsTrigger value="privacy" className="flex items-center gap-2">
             <Shield className="h-4 w-4" />
@@ -107,10 +92,10 @@ export function SettingsContent() {
 
         {/* Profile Tab */}
         <TabsContent value="profile">
-          <Card>
+          <Card className="midnight-glass-card">
             <CardHeader>
-              <CardTitle className="font-serif">Profile Information</CardTitle>
-              <CardDescription>
+              <CardTitle className="midnight-card-title">Profile Information</CardTitle>
+              <CardDescription className="midnight-card-desc">
                 Update your personal information and profile details.
               </CardDescription>
             </CardHeader>
@@ -144,7 +129,7 @@ export function SettingsContent() {
                   disabled
                   placeholder="Your email"
                 />
-                <p className="text-xs text-muted-foreground">Email cannot be changed</p>
+                <p className="text-xs midnight-muted">Email cannot be changed</p>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="bio">Bio</Label>
@@ -195,10 +180,10 @@ export function SettingsContent() {
 
         {/* Notifications Tab */}
         <TabsContent value="notifications">
-          <Card>
+          <Card className="midnight-glass-card">
             <CardHeader>
-              <CardTitle className="font-serif">Notification Preferences</CardTitle>
-              <CardDescription>
+              <CardTitle className="midnight-card-title">Notification Preferences</CardTitle>
+              <CardDescription className="midnight-card-desc">
                 Choose how you want to be notified about activity.
               </CardDescription>
             </CardHeader>
@@ -206,7 +191,7 @@ export function SettingsContent() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Email Notifications</Label>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm midnight-muted">
                     Receive notifications via email
                   </p>
                 </div>
@@ -220,7 +205,7 @@ export function SettingsContent() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Push Notifications</Label>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm midnight-muted">
                     Receive push notifications in browser
                   </p>
                 </div>
@@ -234,7 +219,7 @@ export function SettingsContent() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Job Alerts</Label>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm midnight-muted">
                     Get notified when new matching jobs are found
                   </p>
                 </div>
@@ -248,7 +233,7 @@ export function SettingsContent() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Weekly Report</Label>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm midnight-muted">
                     Receive a weekly summary of your activity
                   </p>
                 </div>
@@ -263,42 +248,12 @@ export function SettingsContent() {
           </Card>
         </TabsContent>
 
-        {/* Appearance Tab */}
-        <TabsContent value="appearance">
-          <Card>
-            <CardHeader>
-              <CardTitle className="font-serif">Appearance</CardTitle>
-              <CardDescription>
-                Customize how the application looks.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <Label>Theme</Label>
-                <Select value={theme} onValueChange={setTheme}>
-                  <SelectTrigger className="w-full max-w-xs">
-                    <SelectValue placeholder="Select theme" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="light">Light</SelectItem>
-                    <SelectItem value="dark">Dark</SelectItem>
-                    <SelectItem value="system">System</SelectItem>
-                  </SelectContent>
-                </Select>
-                <p className="text-sm text-muted-foreground">
-                  Select your preferred color theme.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
         {/* Privacy Tab */}
         <TabsContent value="privacy">
-          <Card>
+          <Card className="midnight-glass-card">
             <CardHeader>
-              <CardTitle className="font-serif">Privacy Settings</CardTitle>
-              <CardDescription>
+              <CardTitle className="midnight-card-title">Privacy Settings</CardTitle>
+              <CardDescription className="midnight-card-desc">
                 Control your privacy and data settings.
               </CardDescription>
             </CardHeader>
@@ -306,7 +261,7 @@ export function SettingsContent() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Profile Visibility</Label>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm midnight-muted">
                     Make your profile visible to recruiters
                   </p>
                 </div>
@@ -315,7 +270,7 @@ export function SettingsContent() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Resume Visibility</Label>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm midnight-muted">
                     Allow companies to view your uploaded resume
                   </p>
                 </div>
@@ -324,15 +279,17 @@ export function SettingsContent() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Activity Status</Label>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm midnight-muted">
                     Show when you are actively looking for jobs
                   </p>
                 </div>
                 <Switch defaultChecked />
               </div>
-              <div className="pt-4 border-t border-border">
-                <Button variant="destructive">Delete Account</Button>
-                <p className="mt-2 text-sm text-muted-foreground">
+              <div className="border-t border-[rgba(255,255,255,0.08)] pt-4">
+                <Button variant="destructive" className="rounded-[8px]">
+                  Delete Account
+                </Button>
+                <p className="mt-2 text-sm midnight-muted">
                   Permanently delete your account and all associated data.
                 </p>
               </div>

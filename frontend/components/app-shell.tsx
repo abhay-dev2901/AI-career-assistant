@@ -41,16 +41,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   if (!shouldRender) {
     return (
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="dark"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <div className="flex items-center justify-center min-h-screen">
+      <ThemeProvider>
+        <div className="flex min-h-screen items-center justify-center bg-[#0a0a0f]">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Loading...</p>
+            <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-2 border-[rgba(255,255,255,0.08)] border-t-[#3b82f6] border-b-[#3b82f6]" />
+            <p className="text-sm text-[#64748b]">Loading...</p>
           </div>
         </div>
       </ThemeProvider>
@@ -62,29 +57,19 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   if (isPublicRoute) {
     return (
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="dark"
-        enableSystem
-        disableTransitionOnChange
-      >
+      <ThemeProvider>
         {children}
       </ThemeProvider>
     )
   }
 
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="dark"
-      enableSystem
-      disableTransitionOnChange
-    >
-      <div className="relative min-h-screen">
+    <ThemeProvider>
+      <div className="relative min-h-screen bg-[#0a0a0f]">
         <AppSidebar />
         <div className="pl-64">
           <AppHeader />
-          <main className="min-h-[calc(100vh-4rem)] p-6">{children}</main>
+          <main className="min-h-[calc(100vh-4rem)] bg-[#0a0a0f] p-6">{children}</main>
         </div>
       </div>
     </ThemeProvider>

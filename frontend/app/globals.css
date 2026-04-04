@@ -4,15 +4,15 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Warm Cream Theme */
+  /* Light — unchanged for auth pages */
   --background: #FEFAF4;
   --foreground: #1C1917;
   --card: #FFFFFF;
   --card-foreground: #1C1917;
   --popover: #FFFFFF;
   --popover-foreground: #1C1917;
-  --primary: #F97316;
-  --primary-foreground: #FFFFFF;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
   --secondary: #FFF7ED;
   --secondary-foreground: #1C1917;
   --muted: #FFF7ED;
@@ -27,67 +27,68 @@
   --warning-foreground: #1C1917;
   --border: #E7E5E4;
   --input: #E7E5E4;
-  --ring: #F97316;
-  --chart-1: #F97316;
+  --ring: #3b82f6;
+  --chart-1: #3b82f6;
   --chart-2: #16A34A;
   --chart-3: #F59E0B;
   --chart-4: #DC2626;
   --chart-5: #8B5CF6;
-  --radius: 0.5rem;
+  --radius: 0.75rem;
   --sidebar: #FFF7ED;
   --sidebar-foreground: #1C1917;
-  --sidebar-primary: #F97316;
+  --sidebar-primary: #3b82f6;
   --sidebar-primary-foreground: #FFFFFF;
   --sidebar-accent: #FFEDD5;
-  --sidebar-accent-foreground: #C2410C;
+  --sidebar-accent-foreground: #1e40af;
   --sidebar-border: #E7E5E4;
-  --sidebar-ring: #F97316;
+  --sidebar-ring: #3b82f6;
   --sidebar-muted: #78716C;
 }
 
+/* Midnight Glass — dashboard (defaultTheme dark) */
 .dark {
-  --background: #1C1917;
-  --foreground: #FEFAF4;
-  --card: #292524;
-  --card-foreground: #FEFAF4;
-  --popover: #292524;
-  --popover-foreground: #FEFAF4;
-  --primary: #FB923C;
-  --primary-foreground: #1C1917;
-  --secondary: #44403C;
-  --secondary-foreground: #FEFAF4;
-  --muted: #44403C;
-  --muted-foreground: #A8A29E;
-  --accent: #57534E;
-  --accent-foreground: #FDBA74;
-  --destructive: #EF4444;
-  --destructive-foreground: #FEFAF4;
-  --success: #22C55E;
-  --success-foreground: #1C1917;
-  --warning: #FBBF24;
-  --warning-foreground: #1C1917;
-  --border: #44403C;
-  --input: #44403C;
-  --ring: #FB923C;
-  --chart-1: #FB923C;
-  --chart-2: #22C55E;
-  --chart-3: #FBBF24;
-  --chart-4: #EF4444;
-  --chart-5: #A78BFA;
-  --sidebar: #292524;
-  --sidebar-foreground: #FEFAF4;
-  --sidebar-primary: #FB923C;
-  --sidebar-primary-foreground: #1C1917;
-  --sidebar-accent: #44403C;
-  --sidebar-accent-foreground: #FDBA74;
-  --sidebar-border: #44403C;
-  --sidebar-ring: #FB923C;
-  --sidebar-muted: #A8A29E;
+  --background: #0a0a0f;
+  --foreground: #f1f5f9;
+  --card: rgba(255, 255, 255, 0.04);
+  --card-foreground: #f1f5f9;
+  --popover: #0d0d14;
+  --popover-foreground: #f1f5f9;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --secondary: rgba(255, 255, 255, 0.06);
+  --secondary-foreground: #f1f5f9;
+  --muted: rgba(255, 255, 255, 0.05);
+  --muted-foreground: #64748b;
+  --accent: rgba(59, 130, 246, 0.15);
+  --accent-foreground: #60a5fa;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --success: #22c55e;
+  --success-foreground: #0a0a0f;
+  --warning: #f59e0b;
+  --warning-foreground: #0a0a0f;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.08);
+  --ring: #3b82f6;
+  --chart-1: #3b82f6;
+  --chart-2: #22c55e;
+  --chart-3: #f59e0b;
+  --chart-4: #ef4444;
+  --chart-5: #a78bfa;
+  --sidebar: #0d0d14;
+  --sidebar-foreground: #f1f5f9;
+  --sidebar-primary: #3b82f6;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: rgba(59, 130, 246, 0.1);
+  --sidebar-accent-foreground: #f1f5f9;
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --sidebar-ring: #3b82f6;
+  --sidebar-muted: #64748b;
 }
 
 @theme inline {
-  --font-sans: 'Inter', 'Inter Fallback', sans-serif;
-  --font-serif: 'Lora', 'Lora Fallback', serif;
+  --font-sans: 'Inter', 'Inter Fallback', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Inter', 'Inter Fallback', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'Geist Mono', 'Geist Mono Fallback', monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -117,8 +118,8 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: 0.5rem;
+  --radius-md: 0.625rem;
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --color-sidebar: var(--sidebar);
@@ -132,11 +133,106 @@
   --color-sidebar-muted: var(--sidebar-muted);
 }
 
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  .dark * {
+    scrollbar-color: #3b82f6 #0d0d14;
+    scrollbar-width: thin;
+  }
+
+  .dark *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .dark *::-webkit-scrollbar-track {
+    background: #0d0d14;
+  }
+
+  .dark *::-webkit-scrollbar-thumb {
+    background: #3b82f6;
+    border-radius: 4px;
+  }
+
+  .dark *::-webkit-scrollbar-thumb:hover {
+    background: #60a5fa;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in-up {
+    animation: fade-in-up 0.55s ease forwards;
+    opacity: 0;
+  }
+
+  .transition-glass {
+    transition: all 200ms ease;
+  }
+
+  /* Midnight Glass — reuse on dashboard sub-pages & cards */
+  .midnight-glass-card {
+    @apply rounded-[12px] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] text-[#f1f5f9] shadow-none backdrop-blur-[12px];
+  }
+
+  .midnight-glass-card-hover {
+    @apply transition-all duration-200 ease-in-out hover:border-[rgba(59,130,246,0.35)] hover:shadow-[0_0_24px_rgba(59,130,246,0.12)];
+  }
+
+  .midnight-page-title {
+    @apply text-2xl font-bold text-[#f1f5f9];
+  }
+
+  .midnight-page-subtitle {
+    @apply text-[#94a3b8];
+  }
+
+  .midnight-card-title {
+    @apply text-lg font-semibold tracking-tight text-[#f1f5f9];
+  }
+
+  .midnight-card-desc {
+    @apply text-sm text-[#64748b];
+  }
+
+  .midnight-muted {
+    @apply text-[#64748b];
+  }
+
+  .auth-hero-bg {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 45%, #0a0a0f 100%);
+  }
+
+  .auth-hero-bg::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      circle at 85% 20%,
+      rgba(59, 130, 246, 0.12),
+      transparent 55%
+    );
+  }
+
+  .auth-glass-panel {
+    @apply relative rounded-[12px] border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.06)] text-[#f1f5f9] shadow-[0_0_48px_rgba(0,0,0,0.45)] backdrop-blur-[20px];
   }
 }

@@ -1,12 +1,11 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter, Lora } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { AppShell } from '@/components/app-shell'
 import { AuthProvider } from '@/context/auth-context'
 import './globals.css'
 
-const _inter = Inter({ subsets: ["latin"] });
-const _lora = Lora({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
 export const metadata: Metadata = {
   title: 'CareerAI - Your AI Career Assistant',
@@ -17,7 +16,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#FEFAF4' },
-    { media: '(prefers-color-scheme: dark)', color: '#1C1917' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a0a0f' },
   ],
 }
 
@@ -28,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="font-sans antialiased">
+      <body className={`${inter.className} font-sans antialiased`}>
         <AuthProvider>
           <AppShell>{children}</AppShell>
         </AuthProvider>

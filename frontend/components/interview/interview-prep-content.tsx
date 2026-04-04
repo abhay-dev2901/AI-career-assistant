@@ -28,9 +28,23 @@ const categories = [
 ]
 
 const difficulties = [
-  { id: "easy", label: "Easy", color: "bg-success/20 text-success border-success/30" },
-  { id: "medium", label: "Medium", color: "bg-warning/20 text-warning border-warning/30" },
-  { id: "hard", label: "Hard", color: "bg-destructive/20 text-destructive border-destructive/30" },
+  {
+    id: "easy",
+    label: "Easy",
+    color:
+      "border-emerald-500/40 bg-[rgba(34,197,94,0.15)] text-emerald-400",
+  },
+  {
+    id: "medium",
+    label: "Medium",
+    color:
+      "border-amber-500/40 bg-[rgba(245,158,11,0.15)] text-amber-400",
+  },
+  {
+    id: "hard",
+    label: "Hard",
+    color: "border-red-500/40 bg-[rgba(239,68,68,0.12)] text-red-400",
+  },
 ]
 
 const mockQuestions: Record<string, Record<string, string[]>> = {
@@ -155,28 +169,27 @@ export function InterviewPrepContent() {
   }
 
   const getScoreColor = (score: number) => {
-    if (score >= 8) return "text-success"
-    if (score >= 6) return "text-warning"
-    return "text-destructive"
+    if (score >= 8) return "text-emerald-400"
+    if (score >= 6) return "text-amber-400"
+    return "text-red-400"
   }
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-2xl font-bold font-serif text-foreground">Interview Prep</h2>
-        <p className="text-muted-foreground">
+        <h2 className="midnight-page-title">Interview Prep</h2>
+        <p className="midnight-page-subtitle mt-1">
           Practice with AI-generated questions and get instant feedback on your answers.
         </p>
       </div>
 
-      {/* Category & Difficulty Selection */}
-      <Card>
+      <Card className="midnight-glass-card">
         <CardContent className="p-6">
           <div className="space-y-6">
             {/* Category Tabs */}
             <div>
-              <label className="text-sm font-medium text-foreground mb-3 block">
+              <label className="mb-3 block text-sm font-medium text-[#94a3b8]">
                 Select Category
               </label>
               <Tabs value={category} onValueChange={setCategory}>
@@ -197,7 +210,7 @@ export function InterviewPrepContent() {
 
             {/* Difficulty Selection */}
             <div>
-              <label className="text-sm font-medium text-foreground mb-3 block">
+              <label className="mb-3 block text-sm font-medium text-[#94a3b8]">
                 Select Difficulty
               </label>
               <div className="flex gap-3">
@@ -207,10 +220,8 @@ export function InterviewPrepContent() {
                     variant="outline"
                     size="sm"
                     onClick={() => setDifficulty(diff.id)}
-                    className={`flex-1 transition-all ${
-                      difficulty === diff.id
-                        ? diff.color
-                        : ""
+                    className={`flex-1 rounded-[8px] border border-[rgba(255,255,255,0.08)] bg-transparent transition-all duration-200 ease-in-out hover:bg-[rgba(255,255,255,0.05)] ${
+                      difficulty === diff.id ? diff.color : "text-[#94a3b8]"
                     }`}
                   >
                     {diff.label}
@@ -223,7 +234,7 @@ export function InterviewPrepContent() {
             <Button
               onClick={handleGenerateQuestion}
               disabled={isGenerating}
-              className="w-full"
+              className="w-full rounded-[8px] transition-all duration-200 ease-in-out"
             >
               {isGenerating ? (
                 <>
@@ -243,22 +254,23 @@ export function InterviewPrepContent() {
 
       {/* Question Card */}
       {question && (
-        <Card className="border-primary/50 bg-primary/5">
+        <Card className="midnight-glass-card border-[rgba(59,130,246,0.35)] bg-[rgba(59,130,246,0.08)] shadow-[0_0_28px_rgba(59,130,246,0.12)]">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle className="flex items-center gap-2 font-serif">
-                <MessageCircle className="h-5 w-5 text-primary" />
+              <CardTitle className="midnight-card-title flex items-center gap-2">
+                <MessageCircle className="h-5 w-5 text-[#60a5fa]" />
                 Interview Question
               </CardTitle>
               <div className="flex gap-2">
-                <Badge variant="outline" className="capitalize">
+                <Badge
+                  variant="outline"
+                  className="rounded-[8px] border-[rgba(255,255,255,0.12)] capitalize text-[#94a3b8]"
+                >
                   {category.replace("-", " ")}
                 </Badge>
                 <Badge
                   variant="outline"
-                  className={
-                    difficulties.find((d) => d.id === difficulty)?.color
-                  }
+                  className={`rounded-[8px] capitalize ${difficulties.find((d) => d.id === difficulty)?.color ?? ""}`}
                 >
                   {difficulty}
                 </Badge>
@@ -266,30 +278,30 @@ export function InterviewPrepContent() {
             </div>
           </CardHeader>
           <CardContent>
-            <p className="text-lg text-foreground leading-relaxed">{question}</p>
+            <p className="text-lg leading-relaxed text-[#f1f5f9]">{question}</p>
           </CardContent>
         </Card>
       )}
 
       {/* Answer Section */}
       {question && (
-        <Card>
+        <Card className="midnight-glass-card">
           <CardHeader>
-            <CardTitle className="font-serif">Your Answer</CardTitle>
+            <CardTitle className="midnight-card-title">Your Answer</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <Textarea
               placeholder="Type your answer here..."
               value={answer}
               onChange={(e) => setAnswer(e.target.value)}
-              className="min-h-[200px] resize-none"
+              className="min-h-[200px] resize-none rounded-[12px] border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] text-[#f1f5f9] placeholder:text-[#64748b] focus-visible:border-[rgba(59,130,246,0.45)] focus-visible:ring-[rgba(59,130,246,0.2)]"
               disabled={isSubmitting || !!feedback}
             />
             {!feedback && (
               <Button
                 onClick={handleSubmitAnswer}
                 disabled={!answer.trim() || isSubmitting}
-                className="w-full"
+                className="w-full rounded-[8px] transition-all duration-200 ease-in-out"
               >
                 {isSubmitting ? (
                   <>
@@ -310,12 +322,12 @@ export function InterviewPrepContent() {
 
       {/* Feedback Card */}
       {feedback && (
-        <Card>
+        <Card className="midnight-glass-card">
           <CardHeader>
-            <CardTitle className="flex items-center justify-between font-serif">
+            <CardTitle className="midnight-card-title flex items-center justify-between">
               <span>AI Feedback</span>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-sans text-muted-foreground">Score:</span>
+                <span className="font-sans text-sm text-[#64748b]">Score:</span>
                 <span className={`text-2xl font-bold ${getScoreColor(feedback.score)}`}>
                   {feedback.score}/10
                 </span>
@@ -325,18 +337,18 @@ export function InterviewPrepContent() {
           <CardContent className="space-y-6">
             {/* Strengths */}
             <div>
-              <h4 className="flex items-center gap-2 text-sm font-medium text-foreground mb-3">
-                <CheckCircle2 className="h-4 w-4 text-success" />
+              <h4 className="mb-3 flex items-center gap-2 text-sm font-medium text-[#f1f5f9]">
+                <CheckCircle2 className="h-4 w-4 text-emerald-400" />
                 Strengths
               </h4>
               <div className="space-y-2">
                 {feedback.strengths.map((strength, index) => (
                   <div
                     key={index}
-                    className="flex items-start gap-2 rounded-lg bg-success/10 p-3 text-sm"
+                    className="flex items-start gap-2 rounded-[12px] border border-emerald-500/20 bg-[rgba(34,197,94,0.08)] p-3 text-sm"
                   >
-                    <CheckCircle2 className="h-4 w-4 text-success mt-0.5 shrink-0" />
-                    <span className="text-foreground">{strength}</span>
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" />
+                    <span className="text-[#f1f5f9]">{strength}</span>
                   </div>
                 ))}
               </div>
@@ -344,29 +356,29 @@ export function InterviewPrepContent() {
 
             {/* Improvements */}
             <div>
-              <h4 className="flex items-center gap-2 text-sm font-medium text-foreground mb-3">
-                <AlertCircle className="h-4 w-4 text-warning" />
+              <h4 className="mb-3 flex items-center gap-2 text-sm font-medium text-[#f1f5f9]">
+                <AlertCircle className="h-4 w-4 text-amber-400" />
                 Areas for Improvement
               </h4>
               <div className="space-y-2">
                 {feedback.improvements.map((improvement, index) => (
                   <div
                     key={index}
-                    className="flex items-start gap-2 rounded-lg bg-warning/10 p-3 text-sm"
+                    className="flex items-start gap-2 rounded-[12px] border border-amber-500/20 bg-[rgba(245,158,11,0.08)] p-3 text-sm"
                   >
-                    <AlertCircle className="h-4 w-4 text-warning mt-0.5 shrink-0" />
-                    <span className="text-foreground">{improvement}</span>
+                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" />
+                    <span className="text-[#f1f5f9]">{improvement}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Model Answer Toggle */}
-            <div className="border-t border-border pt-4">
+            <div className="border-t border-[rgba(255,255,255,0.08)] pt-4">
               <Button
                 variant="ghost"
                 onClick={() => setShowModelAnswer(!showModelAnswer)}
-                className="w-full justify-between"
+                className="w-full justify-between rounded-[8px] text-[#94a3b8] transition-all duration-200 ease-in-out hover:bg-[rgba(255,255,255,0.05)] hover:text-[#f1f5f9]"
               >
                 <span className="flex items-center gap-2">
                   <Sparkles className="h-4 w-4" />
@@ -379,8 +391,8 @@ export function InterviewPrepContent() {
                 )}
               </Button>
               {showModelAnswer && (
-                <div className="mt-4 rounded-lg bg-muted p-4">
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                <div className="mt-4 rounded-[12px] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] p-4">
+                  <p className="text-sm leading-relaxed text-[#94a3b8]">
                     {feedback.modelAnswer}
                   </p>
                 </div>
@@ -391,7 +403,7 @@ export function InterviewPrepContent() {
             <Button
               variant="outline"
               onClick={handleGenerateQuestion}
-              className="w-full"
+              className="w-full rounded-[8px] border-[rgba(255,255,255,0.12)] bg-transparent text-[#f1f5f9] transition-all duration-200 ease-in-out hover:border-[rgba(59,130,246,0.4)] hover:bg-[rgba(59,130,246,0.1)]"
             >
               <Sparkles className="mr-2 h-4 w-4" />
               Try Another Question

@@ -131,18 +131,20 @@ export function JobSearchContent() {
   }
 
   const getMatchColor = (match: number) => {
-    if (match >= 90) return "bg-secondary text-accent-foreground"
-    if (match >= 80) return "bg-secondary text-accent-foreground"
-    if (match >= 70) return "bg-secondary text-accent-foreground"
-    return "bg-muted text-muted-foreground"
+    if (match >= 90)
+      return "border border-[rgba(59,130,246,0.45)] bg-[rgba(59,130,246,0.15)] text-[#60a5fa] shadow-none"
+    if (match >= 80)
+      return "border border-[rgba(34,197,94,0.4)] bg-[rgba(34,197,94,0.12)] text-[#4ade80] shadow-none"
+    if (match >= 70)
+      return "border border-[rgba(245,158,11,0.4)] bg-[rgba(245,158,11,0.12)] text-[#fbbf24] shadow-none"
+    return "border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.06)] text-[#94a3b8] shadow-none"
   }
 
   return (
     <div className="flex gap-6">
-      {/* Filter Sidebar */}
-      <Card className="hidden lg:block w-64 shrink-0 h-fit sticky top-24">
+      <Card className="midnight-glass-card sticky top-24 hidden h-fit w-64 shrink-0 lg:block">
         <CardHeader>
-          <CardTitle className="text-base font-serif">Filters</CardTitle>
+          <CardTitle className="midnight-card-title text-base">Filters</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Remote Toggle */}
@@ -191,14 +193,14 @@ export function JobSearchContent() {
       {/* Main Content */}
       <div className="flex-1 space-y-6">
         {/* Search Form */}
-        <Card>
+        <Card className="midnight-glass-card">
           <CardContent className="p-6">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               {/* Job Role */}
               <div className="space-y-2">
                 <Label htmlFor="role">Job Role</Label>
                 <div className="relative">
-                  <Briefcase className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Briefcase className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#64748b]" />
                   <Input
                     id="role"
                     placeholder="Frontend Developer"
@@ -213,7 +215,7 @@ export function JobSearchContent() {
               <div className="space-y-2">
                 <Label htmlFor="location">Location</Label>
                 <div className="relative">
-                  <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#64748b]" />
                   <Input
                     id="location"
                     placeholder="San Francisco, CA"
@@ -277,7 +279,7 @@ export function JobSearchContent() {
                     <Badge
                       key={skill}
                       variant="secondary"
-                      className="cursor-pointer hover:bg-destructive hover:text-destructive-foreground transition-colors"
+                      className="cursor-pointer rounded-[8px] border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.08)] text-[#f1f5f9] transition-all duration-200 ease-in-out hover:border-red-500/50 hover:bg-red-500/20 hover:text-red-200"
                       onClick={() => handleRemoveSkill(skill)}
                     >
                       {skill}
@@ -292,11 +294,11 @@ export function JobSearchContent() {
 
         {/* Results Header */}
         <div className="flex items-center justify-between">
-          <p className="text-muted-foreground">
-            Showing <span className="font-medium text-foreground">{jobs.length}</span> jobs
+          <p className="midnight-muted">
+            Showing <span className="font-medium text-[#f1f5f9]">{jobs.length}</span> jobs
           </p>
           <Select defaultValue="match">
-            <SelectTrigger className="w-40">
+            <SelectTrigger className="w-40 rounded-[8px] border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.04)]">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
@@ -312,22 +314,21 @@ export function JobSearchContent() {
           {jobs.map((job) => (
             <Card
               key={job.id}
-              className="transition-all hover:shadow-lg hover:border-primary/50"
+              className="midnight-glass-card midnight-glass-card-hover"
             >
               <CardContent className="p-6">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex gap-4">
-                    {/* Company Logo Placeholder */}
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-muted">
-                      <Building2 className="h-7 w-7 text-muted-foreground" />
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[12px] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)]">
+                      <Building2 className="h-7 w-7 text-[#64748b]" />
                     </div>
 
                     <div className="space-y-1">
-                      <h3 className="text-lg font-semibold font-serif text-foreground">
+                      <h3 className="text-lg font-semibold text-[#f1f5f9]">
                         {job.title}
                       </h3>
-                      <p className="text-muted-foreground">{job.company}</p>
-                      <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                      <p className="text-[#94a3b8]">{job.company}</p>
+                      <div className="flex flex-wrap items-center gap-3 text-sm text-[#64748b]">
                         <span className="flex items-center gap-1">
                           <MapPin className="h-4 w-4" />
                           {job.location}
@@ -342,9 +343,17 @@ export function JobSearchContent() {
                         </span>
                       </div>
                       <div className="flex gap-2 pt-2">
-                        <Badge variant="outline">{job.type}</Badge>
+                        <Badge
+                          variant="outline"
+                          className="rounded-[8px] border-[rgba(255,255,255,0.12)] text-[#94a3b8]"
+                        >
+                          {job.type}
+                        </Badge>
                         {job.remote && (
-                          <Badge variant="outline" className="border-primary text-primary">
+                          <Badge
+                            variant="outline"
+                            className="rounded-[8px] border-[rgba(59,130,246,0.45)] text-[#60a5fa]"
+                          >
                             Remote
                           </Badge>
                         )}
@@ -353,7 +362,7 @@ export function JobSearchContent() {
                   </div>
 
                   <div className="flex flex-col items-end gap-3">
-                    <Badge className={getMatchColor(job.match)}>
+                    <Badge className={`rounded-[8px] ${getMatchColor(job.match)}`}>
                       {job.match}% Match
                     </Badge>
                     <div className="flex gap-2">
@@ -361,11 +370,11 @@ export function JobSearchContent() {
                         variant="ghost"
                         size="icon"
                         onClick={() => toggleSaveJob(job.id)}
-                        className={
+                        className={`rounded-[8px] transition-all duration-200 ease-in-out ${
                           savedJobs.includes(job.id)
-                            ? "text-destructive"
-                            : "text-muted-foreground"
-                        }
+                            ? "text-red-400"
+                            : "text-[#64748b] hover:text-[#f1f5f9]"
+                        }`}
                       >
                         <Heart
                           className={`h-5 w-5 ${
@@ -373,7 +382,11 @@ export function JobSearchContent() {
                           }`}
                         />
                       </Button>
-                      <Button variant="outline" size="sm">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="rounded-[8px] border-[rgba(255,255,255,0.12)] bg-transparent text-[#f1f5f9] transition-all duration-200 ease-in-out hover:border-[rgba(59,130,246,0.4)] hover:bg-[rgba(59,130,246,0.1)]"
+                      >
                         <ExternalLink className="mr-2 h-4 w-4" />
                         View Details
                       </Button>
