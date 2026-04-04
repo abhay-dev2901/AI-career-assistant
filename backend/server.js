@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { prisma } from './lib/prisma.js';
 import authRoutes from './routes/auth.js';
+import resumeRoutes from './ResumeMatcher/router.js';
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ async function startServer() {
 
     // Mount routes
     app.use('/api/auth', authRoutes);
+    app.use('/api/resume', resumeRoutes);
 
     // Health check endpoint
     app.get('/api/health', (req, res) => {
