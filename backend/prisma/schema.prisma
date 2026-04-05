@@ -26,3 +26,17 @@ model User {
   @@index([email], map: "idx_users_email")
   @@map("users")
 }
+
+model ResumeAnalysis {
+  id             String   @id @default(cuid())
+  userId         String
+  jobDescription String
+  score          Int
+  assessment     String
+  suggestions    Json
+  missingSkills  Json
+  strengths      Json
+  createdAt      DateTime @default(now())
+
+  @@index([userId])
+}
