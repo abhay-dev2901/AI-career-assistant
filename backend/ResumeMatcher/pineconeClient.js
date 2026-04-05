@@ -17,7 +17,7 @@ export async function getPineconeIndex() {
     console.log(`Creating index: ${indexName}`);
     await pinecone.createIndex({
       name: indexName,
-      dimension: 3072, // gemini-embedding-001 output size
+      dimension: 3072,
       metric: "cosine",
       spec: {
         serverless: {
@@ -26,9 +26,9 @@ export async function getPineconeIndex() {
         },
       },
     });
-    // wait for index to be ready
+    console.log("Waiting 60s for index to be ready...");
     await new Promise((r) => setTimeout(r, 60000));
-  } 
+  }
 
   pineconeIndex = pinecone.index(indexName);
   console.log(`✓ Pinecone index ready: ${indexName}`);
