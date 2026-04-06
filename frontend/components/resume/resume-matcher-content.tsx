@@ -90,7 +90,6 @@ export function ResumeMatcherContent() {
     setIsAnalyzing(true)
 
     try {
-      // Step 1 — Upload only if not already indexed this session
       if (!isResumeIndexed) {
         setStatusText("Uploading & indexing resume...")
         const formData = new FormData()
@@ -114,7 +113,6 @@ export function ResumeMatcherContent() {
         setStatusText("Analyzing your resume...")
       }
 
-      // Step 2 — Stream match results
       const matchRes = await fetch(`${API_BASE_URL}/api/resume/match`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -159,9 +157,7 @@ export function ResumeMatcherContent() {
               })
             }
 
-            if (parsed.type === "error") {
-              throw new Error(parsed.message)
-            }
+            if (parsed.type === "error") throw new Error(parsed.message)
 
             if (parsed.type === "done") {
               setResults({
@@ -175,10 +171,7 @@ export function ResumeMatcherContent() {
               setIsAnalyzing(false)
             }
           } catch (parseErr) {
-            if (
-              parseErr instanceof Error &&
-              parseErr.message !== "Unexpected end of JSON input"
-            ) {
+            if (parseErr instanceof Error && parseErr.message !== "Unexpected end of JSON input") {
               throw parseErr
             }
           }
@@ -434,7 +427,6 @@ export function ResumeMatcherContent() {
                     </div>
                   )}
 
-                  {/* Quick stats */}
                   {results.suggestions.length > 0 && (
                     <div className="flex gap-4 border-t border-[rgba(255,255,255,0.06)] pt-4">
                       <div className="text-center">
@@ -474,7 +466,8 @@ export function ResumeMatcherContent() {
                     {results.strengths.map((strength, i) => (
                       <Badge
                         key={i}
-                        className="rounded-[8px] border border-emerald-500/30 bg-[rgba(34,197,94,0.1)] text-emerald-300 px-3 py-1"
+                        title={strength}
+                        className="rounded-[8px] border border-emerald-500/30 bg-[rgba(34,197,94,0.1)] text-emerald-300 px-3 py-1 max-w-[220px] truncate block"
                       >
                         ✓ {strength}
                       </Badge>
@@ -501,7 +494,8 @@ export function ResumeMatcherContent() {
                     {results.missingSkills.map((skill, i) => (
                       <Badge
                         key={i}
-                        className="rounded-[8px] border border-red-500/30 bg-[rgba(239,68,68,0.1)] text-red-300 px-3 py-1"
+                        title={skill}
+                        className="rounded-[8px] border border-red-500/30 bg-[rgba(239,68,68,0.1)] text-red-300 px-3 py-1 max-w-[220px] truncate block"
                       >
                         ✗ {skill}
                       </Badge>

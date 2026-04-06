@@ -5,13 +5,15 @@ import {
   Search,
   MapPin,
   Briefcase,
-  DollarSign,
   Clock,
   Building2,
-  Heart,
   ExternalLink,
-  Loader2,
   X,
+  Sparkles,
+  Zap,
+  SlidersHorizontal,
+  Globe,
+  TrendingUp,
 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -28,63 +30,59 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-const mockJobs = [
+const UPCOMING_FEATURES = [
   {
-    id: 1,
-    title: "Senior Frontend Developer",
-    company: "TechCorp Inc.",
-    location: "San Francisco, CA",
-    salary: "$150k - $200k",
-    match: 95,
-    posted: "2 days ago",
-    type: "Full-time",
-    remote: true,
+    icon: Sparkles,
+    label: "AI-powered matching",
+    desc: "Personalized job recommendations based on your skills and history.",
   },
   {
-    id: 2,
-    title: "Full Stack Engineer",
-    company: "StartupXYZ",
-    location: "New York, NY",
-    salary: "$130k - $170k",
-    match: 88,
-    posted: "3 days ago",
-    type: "Full-time",
-    remote: false,
+    icon: Globe,
+    label: "Real-time listings",
+    desc: "Live job postings pulled from hundreds of platforms.",
   },
   {
-    id: 3,
-    title: "React Developer",
-    company: "DesignStudio",
-    location: "Austin, TX",
-    salary: "$120k - $160k",
-    match: 82,
-    posted: "1 week ago",
-    type: "Contract",
-    remote: true,
+    icon: SlidersHorizontal,
+    label: "Advanced filters",
+    desc: "Filter by salary, remote, industry, tech stack, and more.",
   },
   {
-    id: 4,
-    title: "Frontend Architect",
-    company: "Enterprise Solutions",
-    location: "Seattle, WA",
-    salary: "$180k - $220k",
-    match: 79,
-    posted: "4 days ago",
-    type: "Full-time",
-    remote: false,
+    icon: TrendingUp,
+    label: "Salary insights",
+    desc: "Market-rate data and negotiation tips for every role.",
   },
   {
-    id: 5,
-    title: "UI Engineer",
-    company: "InnovateTech",
-    location: "Remote",
-    salary: "$110k - $140k",
-    match: 75,
-    posted: "5 days ago",
-    type: "Full-time",
-    remote: true,
+    icon: Zap,
+    label: "One-click apply",
+    desc: "Apply to multiple jobs instantly with your saved profile.",
   },
 ]
+
+// Skeleton ghost cards shown behind the coming-soon banner
+function GhostCard({ opacity }: { opacity: number }) {
+  return (
+    <Card
+      className="midnight-glass-card pointer-events-none select-none"
+      style={{ opacity }}
+    >
+      <CardContent className="p-6">
+        <div className="flex items-start gap-4">
+          <div className="h-14 w-14 shrink-0 rounded-[12px] bg-[rgba(255,255,255,0.05)]" />
+          <div className="flex-1 space-y-2">
+            <div className="h-4 w-2/5 rounded-md bg-[rgba(255,255,255,0.07)]" />
+            <div className="h-3 w-1/4 rounded-md bg-[rgba(255,255,255,0.05)]" />
+            <div className="h-3 w-3/5 rounded-md bg-[rgba(255,255,255,0.04)]" />
+            <div className="mt-3 flex gap-2">
+              <div className="h-5 w-16 rounded-[8px] bg-[rgba(255,255,255,0.05)]" />
+              <div className="h-5 w-14 rounded-[8px] bg-[rgba(255,255,255,0.04)]" />
+            </div>
+          </div>
+          <div className="h-6 w-20 rounded-[8px] bg-[rgba(255,255,255,0.05)]" />
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
 
 export function JobSearchContent() {
   const [jobRole, setJobRole] = useState("")
@@ -92,9 +90,6 @@ export function JobSearchContent() {
   const [skills, setSkills] = useState<string[]>([])
   const [skillInput, setSkillInput] = useState("")
   const [experience, setExperience] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const [jobs, setJobs] = useState(mockJobs)
-  const [savedJobs, setSavedJobs] = useState<number[]>([])
   const [remoteOnly, setRemoteOnly] = useState(false)
   const [salaryRange, setSalaryRange] = useState([80])
   const [datePosted, setDatePosted] = useState("any")
@@ -113,41 +108,14 @@ export function JobSearchContent() {
     setSkills(skills.filter((skill) => skill !== skillToRemove))
   }
 
-  const handleSearch = () => {
-    setIsLoading(true)
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false)
-      setJobs(mockJobs)
-    }, 1500)
-  }
-
-  const toggleSaveJob = (jobId: number) => {
-    setSavedJobs((prev) =>
-      prev.includes(jobId)
-        ? prev.filter((id) => id !== jobId)
-        : [...prev, jobId]
-    )
-  }
-
-  const getMatchColor = (match: number) => {
-    if (match >= 90)
-      return "border border-[rgba(59,130,246,0.45)] bg-[rgba(59,130,246,0.15)] text-[#60a5fa] shadow-none"
-    if (match >= 80)
-      return "border border-[rgba(34,197,94,0.4)] bg-[rgba(34,197,94,0.12)] text-[#4ade80] shadow-none"
-    if (match >= 70)
-      return "border border-[rgba(245,158,11,0.4)] bg-[rgba(245,158,11,0.12)] text-[#fbbf24] shadow-none"
-    return "border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.06)] text-[#94a3b8] shadow-none"
-  }
-
   return (
     <div className="flex gap-6">
-      <Card className="midnight-glass-card sticky top-24 hidden h-fit w-64 shrink-0 lg:block">
+      {/* Sidebar Filters */}
+      <Card className="midnight-glass-card sticky top-24 hidden h-fit w-64 shrink-0 lg:block opacity-50 pointer-events-none select-none">
         <CardHeader>
           <CardTitle className="midnight-card-title text-base">Filters</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Remote Toggle */}
           <div className="flex items-center justify-between">
             <Label htmlFor="remote" className="text-sm">
               Remote Only
@@ -156,10 +124,10 @@ export function JobSearchContent() {
               id="remote"
               checked={remoteOnly}
               onCheckedChange={setRemoteOnly}
+              disabled
             />
           </div>
 
-          {/* Salary Range */}
           <div className="space-y-3">
             <Label className="text-sm">Min Salary: ${salaryRange[0]}k</Label>
             <Slider
@@ -169,13 +137,13 @@ export function JobSearchContent() {
               min={50}
               step={10}
               className="w-full"
+              disabled
             />
           </div>
 
-          {/* Date Posted */}
           <div className="space-y-2">
             <Label className="text-sm">Date Posted</Label>
-            <Select value={datePosted} onValueChange={setDatePosted}>
+            <Select value={datePosted} onValueChange={setDatePosted} disabled>
               <SelectTrigger>
                 <SelectValue placeholder="Any time" />
               </SelectTrigger>
@@ -192,11 +160,10 @@ export function JobSearchContent() {
 
       {/* Main Content */}
       <div className="flex-1 space-y-6">
-        {/* Search Form */}
-        <Card className="midnight-glass-card">
+        {/* Search Form — disabled until feature launches */}
+        <Card className="midnight-glass-card opacity-50 pointer-events-none select-none">
           <CardContent className="p-6">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              {/* Job Role */}
               <div className="space-y-2">
                 <Label htmlFor="role">Job Role</Label>
                 <div className="relative">
@@ -207,11 +174,11 @@ export function JobSearchContent() {
                     value={jobRole}
                     onChange={(e) => setJobRole(e.target.value)}
                     className="pl-10"
+                    disabled
                   />
                 </div>
               </div>
 
-              {/* Location */}
               <div className="space-y-2">
                 <Label htmlFor="location">Location</Label>
                 <div className="relative">
@@ -222,14 +189,14 @@ export function JobSearchContent() {
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
                     className="pl-10"
+                    disabled
                   />
                 </div>
               </div>
 
-              {/* Experience Level */}
               <div className="space-y-2">
                 <Label htmlFor="experience">Experience Level</Label>
-                <Select value={experience} onValueChange={setExperience}>
+                <Select value={experience} onValueChange={setExperience} disabled>
                   <SelectTrigger id="experience">
                     <SelectValue placeholder="Select level" />
                   </SelectTrigger>
@@ -241,29 +208,14 @@ export function JobSearchContent() {
                 </Select>
               </div>
 
-              {/* Search Button */}
               <div className="flex items-end">
-                <Button
-                  onClick={handleSearch}
-                  disabled={isLoading}
-                  className="w-full"
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Searching...
-                    </>
-                  ) : (
-                    <>
-                      <Search className="mr-2 h-4 w-4" />
-                      Find Jobs
-                    </>
-                  )}
+                <Button disabled className="w-full">
+                  <Search className="mr-2 h-4 w-4" />
+                  Find Jobs
                 </Button>
               </div>
             </div>
 
-            {/* Skills Input */}
             <div className="mt-4 space-y-2">
               <Label htmlFor="skills">Skills</Label>
               <Input
@@ -272,6 +224,7 @@ export function JobSearchContent() {
                 value={skillInput}
                 onChange={(e) => setSkillInput(e.target.value)}
                 onKeyDown={handleAddSkill}
+                disabled
               />
               {skills.length > 0 && (
                 <div className="flex flex-wrap gap-2 mt-2">
@@ -292,110 +245,62 @@ export function JobSearchContent() {
           </CardContent>
         </Card>
 
-        {/* Results Header */}
-        <div className="flex items-center justify-between">
-          <p className="midnight-muted">
-            Showing <span className="font-medium text-[#f1f5f9]">{jobs.length}</span> jobs
-          </p>
-          <Select defaultValue="match">
-            <SelectTrigger className="w-40 rounded-[8px] border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.04)]">
-              <SelectValue placeholder="Sort by" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="match">Best Match</SelectItem>
-              <SelectItem value="recent">Most Recent</SelectItem>
-              <SelectItem value="salary">Highest Salary</SelectItem>
-            </SelectContent>
-          </Select>
+        {/* ── Coming Soon Banner ── */}
+        <div className="relative rounded-xl border border-dashed border-[rgba(255,255,255,0.14)] bg-[rgba(255,255,255,0.02)] px-6 py-12 flex flex-col items-center text-center gap-6">
+          {/* Icon */}
+          <div className="flex h-16 w-16 items-center justify-center rounded-full border border-[rgba(59,130,246,0.3)] bg-[rgba(59,130,246,0.1)]">
+            <Search className="h-7 w-7 text-[#60a5fa]" />
+          </div>
+
+          {/* Headline */}
+          <div className="space-y-2 max-w-md">
+            <div className="flex items-center justify-center gap-2">
+              <span className="rounded-full border border-[rgba(59,130,246,0.4)] bg-[rgba(59,130,246,0.12)] px-3 py-0.5 text-xs font-medium text-[#60a5fa]">
+                Coming soon
+              </span>
+            </div>
+            <h2 className="text-2xl font-semibold text-[#f1f5f9]">
+              Smart job search is on its way
+            </h2>
+            <p className="text-sm leading-relaxed text-[#64748b]">
+              We're building a powerful job matching engine with real-time listings,
+              AI-powered recommendations, and one-click applications. Stay tuned.
+            </p>
+          </div>
+
+          {/* Feature grid */}
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 w-full max-w-2xl mt-2">
+            {UPCOMING_FEATURES.map(({ icon: Icon, label, desc }) => (
+              <div
+                key={label}
+                className="flex items-start gap-3 rounded-[12px] border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.03)] p-4 text-left"
+              >
+                <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-[8px] bg-[rgba(59,130,246,0.1)]">
+                  <Icon className="h-4 w-4 text-[#60a5fa]" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-[#e2e8f0]">{label}</p>
+                  <p className="mt-0.5 text-xs leading-relaxed text-[#64748b]">{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Notify CTA — optional, wire up as needed */}
+          <Button
+            variant="outline"
+            className="mt-2 rounded-[10px] border-[rgba(59,130,246,0.4)] bg-[rgba(59,130,246,0.08)] text-[#60a5fa] hover:border-[rgba(59,130,246,0.6)] hover:bg-[rgba(59,130,246,0.15)] transition-all duration-200"
+          >
+            <ExternalLink className="mr-2 h-4 w-4" />
+            Notify me when it's ready
+          </Button>
         </div>
 
-        {/* Job Cards */}
-        <div className="space-y-4">
-          {jobs.map((job) => (
-            <Card
-              key={job.id}
-              className="midnight-glass-card midnight-glass-card-hover"
-            >
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex gap-4">
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[12px] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)]">
-                      <Building2 className="h-7 w-7 text-[#64748b]" />
-                    </div>
-
-                    <div className="space-y-1">
-                      <h3 className="text-lg font-semibold text-[#f1f5f9]">
-                        {job.title}
-                      </h3>
-                      <p className="text-[#94a3b8]">{job.company}</p>
-                      <div className="flex flex-wrap items-center gap-3 text-sm text-[#64748b]">
-                        <span className="flex items-center gap-1">
-                          <MapPin className="h-4 w-4" />
-                          {job.location}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <DollarSign className="h-4 w-4" />
-                          {job.salary}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Clock className="h-4 w-4" />
-                          {job.posted}
-                        </span>
-                      </div>
-                      <div className="flex gap-2 pt-2">
-                        <Badge
-                          variant="outline"
-                          className="rounded-[8px] border-[rgba(255,255,255,0.12)] text-[#94a3b8]"
-                        >
-                          {job.type}
-                        </Badge>
-                        {job.remote && (
-                          <Badge
-                            variant="outline"
-                            className="rounded-[8px] border-[rgba(59,130,246,0.45)] text-[#60a5fa]"
-                          >
-                            Remote
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col items-end gap-3">
-                    <Badge className={`rounded-[8px] ${getMatchColor(job.match)}`}>
-                      {job.match}% Match
-                    </Badge>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => toggleSaveJob(job.id)}
-                        className={`rounded-[8px] transition-all duration-200 ease-in-out ${
-                          savedJobs.includes(job.id)
-                            ? "text-red-400"
-                            : "text-[#64748b] hover:text-[#f1f5f9]"
-                        }`}
-                      >
-                        <Heart
-                          className={`h-5 w-5 ${
-                            savedJobs.includes(job.id) ? "fill-current" : ""
-                          }`}
-                        />
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="rounded-[8px] border-[rgba(255,255,255,0.12)] bg-transparent text-[#f1f5f9] transition-all duration-200 ease-in-out hover:border-[rgba(59,130,246,0.4)] hover:bg-[rgba(59,130,246,0.1)]"
-                      >
-                        <ExternalLink className="mr-2 h-4 w-4" />
-                        View Details
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+        {/* Ghost job cards — decorative blur-behind effect */}
+        <div className="space-y-4" aria-hidden="true">
+          <GhostCard opacity={0.25} />
+          <GhostCard opacity={0.15} />
+          <GhostCard opacity={0.08} />
         </div>
       </div>
     </div>
