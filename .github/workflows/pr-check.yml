@@ -1,0 +1,37 @@
+name: PR Check
+
+on:
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  lint-and-type-check:
+    name: Lint & Type Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install backend deps
+        run: npm install --legacy-peer-deps
+        working-directory: backend
+
+      - name: Install frontend deps
+        run: npm install --legacy-peer-deps
+        working-directory: frontend
+
+      - name: TypeScript check
+        run: npx tsc --noEmit
+        working-directory: frontend
+
+      - name: Check for console.logs in production code
+        run: |
+          if grep -r "console\.log" --include="*.ts" --include="*.tsx" frontend/src/; then
+            echo "❌ Remove console.logs before merging"
+            exit 1
+          fi
