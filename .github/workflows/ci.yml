@@ -36,10 +36,9 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Run Prisma migrations
-  run: npx prisma migrate deploy
-  env:
-    DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Run tests
         run: npm test
