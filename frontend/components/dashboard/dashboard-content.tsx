@@ -79,7 +79,12 @@ export function DashboardContent() {
     },
   ])
 
-  const recentActivity = []
+  const recentActivity: {
+    id: string
+    type: string
+    message: string
+    time: string
+  }[] = []= []
 
   useEffect(() => {
     if (user) {
