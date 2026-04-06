@@ -1,5 +1,5 @@
 import fs from "fs";
-import { embedBatch } from "./embedder.js";
+import { embedBatch, embedText } from "./embedder.js";
 import { getPineconeIndex } from "./pineconeClient.js";
 
 async function extractTextFromPDF(filePath) {
@@ -87,7 +87,7 @@ export async function deleteUserResume(userId) {
   }
 }
 
-export async function ingestResume(filePath, userId = "default") {
+export async function ingestResume(filePath, userId = "default", forceReindex = false) {
   const index = await getPineconeIndex();
 
   // Check if resume already indexed

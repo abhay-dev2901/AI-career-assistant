@@ -23,6 +23,8 @@ const upload = multer({
 });
 
 // POST /api/resume/upload
+import fs from "fs";
+
 router.post("/upload", upload.single("resume"), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: "No file uploaded" });
@@ -30,13 +32,20 @@ router.post("/upload", upload.single("resume"), async (req, res) => {
     const userId = req.body.userId || "default";
     const forceReindex = req.body.forceReindex === "true";
 
-    if (forceReindex) {
-      await deleteUserResume(userId);
-    }
+    if (forceReindex) await deleteUserResume(userId);
 
     const result = await ingestResume(req.file.path, userId);
+
+    // Delete file immediately after processing — we don't need it anymore
+    fs.unlink(req.file.path, (err) => {
+      if (err) console.log("Could not delete temp file:", err.message);
+      else console.log("🗑️ Temp file deleted after processing");
+    });
+
     res.json({ success: true, message: "Resume indexed successfully", ...result });
   } catch (err) {
+    // Also delete on error
+    if (req.file?.path) fs.unlink(req.file.path, () => {});
     console.error("Upload error:", err);
     res.status(500).json({ error: err.message });
   }
