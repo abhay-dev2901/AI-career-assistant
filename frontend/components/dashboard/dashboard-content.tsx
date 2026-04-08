@@ -116,38 +116,23 @@ export function DashboardContent() {
   return (
     <div className="space-y-6">
       <div
-        className="animate-fade-in-up relative overflow-hidden rounded-2xl border border-white/15 p-8 transition-all duration-300 ease-in-out hover:border-white/25 group"
+        className="animate-fade-in-up relative overflow-hidden rounded-lg border border-white/5 p-8 transition-all duration-200"
         style={{
-          background:
-            "linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 27, 75, 0.8) 50%, rgba(10, 10, 15, 0.8) 100%)",
-          backdropFilter: 'blur(12px)',
+          background: '#0B1220',
         }}
       >
-        {/* Glow effect on hover */}
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-600/0 via-blue-600/5 to-blue-600/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-        
-        {/* Top accent line */}
-        <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-blue-400/60 to-transparent" />
-
-        <div
-          className="pointer-events-none absolute inset-0 opacity-100 rounded-2xl"
-          style={{
-            background:
-              "radial-gradient(circle at 80% 50%, rgba(59,130,246,0.1), transparent 60%)",
-          }}
-        />
-        <div className="relative flex items-center justify-between gap-6">
+        <div className="flex items-center justify-between gap-6">
           <div className="space-y-3">
-            <h2 className="text-4xl font-bold text-white">
+            <h2 className="text-3xl font-bold text-white">
               Good morning, {user?.firstName || "User"}!
             </h2>
-            <p className="max-w-xl text-base text-gray-400 leading-relaxed">
+            <p className="max-w-xl text-sm text-gray-500">
               {user?.bio ||
                 "Your career journey starts here. Let's make today count."}
             </p>
           </div>
-          <div className="hidden h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500/30 to-purple-600/20 md:flex shadow-lg shadow-blue-500/20 group-hover:shadow-blue-500/40 transition-all duration-300">
-            <Sparkles className="h-8 w-8 text-blue-300 animate-pulse" />
+          <div className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-blue-600/20 md:flex">
+            <Sparkles className="h-6 w-6 text-blue-400" />
           </div>
         </div>
       </div>
@@ -157,33 +142,26 @@ export function DashboardContent() {
           <div
             key={stat.title}
             className={cn(
-              "animate-fade-in-up group relative overflow-hidden rounded-xl border border-white/15 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl p-6 transition-all duration-300 ease-in-out",
-              "hover:scale-[1.03] hover:border-white/25 hover:shadow-2xl hover:shadow-blue-500/20"
+              "animate-fade-in-up relative overflow-hidden rounded-lg border border-white/5 bg-[#0B1220] p-6 transition-all duration-200",
+              "hover:border-white/10"
             )}
             style={{
-              borderTop: `3px solid ${stat.accentBorder}`,
               animationDelay: `${(index + 1) * 100}ms`,
             }}
           >
-            {/* Hover glow effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600/0 via-blue-600/5 to-blue-600/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-xl" />
-            
-            {/* Top accent line */}
-            <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-blue-300/40 to-transparent" />
-
-            <div className="relative flex items-center justify-between">
+            <div className="flex items-center justify-between">
               <div className="space-y-2">
-                <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                <p className="text-xs font-medium uppercase tracking-wider text-gray-600">
                   {stat.title}
                 </p>
-                <p className="text-3xl font-bold leading-tight text-white">
+                <p className="text-2xl font-bold leading-tight text-white">
                   {stat.value}
                 </p>
-                <p className="text-xs text-gray-500">{stat.change}</p>
+                <p className="text-xs text-gray-600">{stat.change}</p>
               </div>
               <div
                 className={cn(
-                  "rounded-xl p-3 transition-all duration-300 group-hover:scale-110",
+                  "rounded-lg p-3 transition-all duration-200",
                   stat.bgColor
                 )}
               >
@@ -241,30 +219,27 @@ export function DashboardContent() {
           <CardHeader>
             <CardTitle className="text-[#f1f5f9]">Quick Actions</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="space-y-2">
             {quickActions.map((action, index) => (
               <Link
                 key={action.title}
                 href={action.href}
                 className={cn(
-                  "animate-fade-in-up group relative overflow-hidden flex w-full items-center justify-between rounded-xl border border-white/15 bg-gradient-to-br from-white/10 to-white/5 px-4 py-3 backdrop-blur-xl transition-all duration-300 ease-in-out",
-                  "hover:border-white/25 hover:shadow-lg hover:shadow-blue-500/15 hover:scale-[1.02]"
+                  "animate-fade-in-up flex w-full items-center justify-between rounded-lg border border-white/5 bg-[#0B1220] px-4 py-3 transition-all duration-200",
+                  "hover:border-white/10"
                 )}
                 style={{ animationDelay: `${600 + index * 100}ms` }}
               >
-                {/* Hover glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/0 via-blue-600/5 to-blue-600/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-xl" />
-                
-                <div className="relative flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500/30 to-blue-600/20 transition-all duration-300 ease-in-out group-hover:from-blue-500/50 group-hover:to-blue-600/40 shadow-lg shadow-blue-500/20 group-hover:shadow-blue-500/30">
-                    <action.icon className="h-5 w-5 text-blue-300" />
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600/15 transition-all duration-200">
+                    <action.icon className="h-5 w-5 text-blue-400" />
                   </div>
                   <div className="text-left">
-                    <p className="font-medium text-white">{action.title}</p>
-                    <p className="text-xs text-gray-500">{action.description}</p>
+                    <p className="text-sm font-medium text-white">{action.title}</p>
+                    <p className="text-xs text-gray-600">{action.description}</p>
                   </div>
                 </div>
-                <ArrowRight className="relative h-4 w-4 shrink-0 text-gray-500 transition-all duration-300 ease-in-out group-hover:translate-x-1 group-hover:text-blue-300" />
+                <ArrowRight className="h-4 w-4 shrink-0 text-gray-600 transition-all duration-200 group-hover:translate-x-0.5" />
               </Link>
             ))}
           </CardContent>

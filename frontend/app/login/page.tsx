@@ -47,62 +47,44 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen w-full overflow-hidden">
+    <div className="min-h-screen w-full overflow-hidden bg-black">
       <GradientBackground />
       
       <div className="relative z-10 grid lg:grid-cols-2 gap-0">
         {/* Left Panel - Branding & Marketing with Features */}
-        <div className="hidden lg:flex flex-col justify-between p-12 border-r border-white/10">
-          <div className="space-y-12">
+        <div className="hidden lg:flex flex-col justify-between p-12 border-r border-white/5">
+          <div className="space-y-8">
             {/* Branding */}
             <Link href="/" className="flex items-center gap-3 font-bold text-lg text-white hover:opacity-80 transition-opacity w-fit">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/30">
+              <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">CA</span>
               </div>
               <span>CareerAI</span>
             </Link>
             
             {/* Hero text */}
-            <div className="max-w-sm space-y-4 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <h2 className="text-5xl font-bold text-white leading-tight">
+            <div className="max-w-sm space-y-4">
+              <h2 className="text-4xl font-bold text-white leading-tight">
                 Transform your career
               </h2>
-              <p className="text-gray-400 text-base leading-relaxed">
+              <p className="text-gray-500 text-sm leading-relaxed">
                 AI-powered insights for smarter job searches, tailored resume optimization, and interview mastery.
               </p>
             </div>
-
-            {/* Feature carousel */}
-            <div className="animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-              <FeatureCarousel />
-            </div>
           </div>
 
-          {/* Bottom section with preview and social proof */}
-          <div className="space-y-8">
-            {/* Floating dashboard preview */}
-            <FloatingDashboardPreview />
-
-            {/* Social proof */}
-            <div className="border-t border-white/10 pt-6">
-              <p className="text-xs text-gray-500 mb-4 uppercase tracking-widest">Trusted by professionals worldwide</p>
-              <div className="flex gap-3">
-                {[...Array(5)].map((_, i) => (
-                  <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400/30 to-purple-600/30 border border-white/15 flex items-center justify-center">
-                    <span className="text-xs text-blue-300 font-semibold">{i + 1}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+          {/* Bottom section */}
+          <div className="space-y-6 border-t border-white/5 pt-6">
+            <p className="text-xs text-gray-600">Trusted by professionals worldwide</p>
           </div>
         </div>
 
         {/* Right Panel - Auth Form */}
         <div className="flex flex-col items-center justify-center p-6 lg:p-0 lg:pr-12 min-h-screen">
           <AuthCard title="Welcome back" description="Sign in to your account to continue">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-5">
               {error && (
-                <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/40 text-red-300 text-sm animate-pulse">
+                <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
                   {error}
                 </div>
               )}
@@ -120,8 +102,8 @@ export default function LoginPage() {
                 />
 
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-medium text-gray-400">Password</label>
-                  <Link href="#" className="text-xs text-blue-400 hover:text-blue-300 transition-colors">
+                  <label className="text-xs font-medium text-gray-600">Password</label>
+                  <Link href="#" className="text-xs text-blue-500 hover:text-blue-400 transition-colors">
                     Forgot password?
                   </Link>
                 </div>
@@ -137,40 +119,44 @@ export default function LoginPage() {
                 />
               </div>
 
-              <GlowButton type="submit" isLoading={loading} className="w-full">
-                {loading ? 'Signing in...' : 'Sign In with Email'}
-              </GlowButton>
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-200 disabled:opacity-50"
+              >
+                {loading ? 'Signing in...' : 'Sign In'}
+              </button>
             </form>
 
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-white/10" />
+                <div className="w-full border-t border-white/5" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-slate-900 text-gray-400">Or continue with</span>
+                <span className="px-2 bg-black text-gray-600">Or continue with</span>
               </div>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2">
               <SocialButton icon={Chrome} provider="google" label="Continue with Google" />
               <SocialButton icon={Github} provider="github" label="Continue with GitHub" />
               <SocialButton icon={Apple} provider="apple" label="Continue with Apple" />
             </div>
 
             <div className="mt-6 text-center">
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-gray-500">
                 Don&apos;t have an account?{' '}
-                <Link href="/signup" className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
+                <Link href="/signup" className="text-blue-500 hover:text-blue-400 font-medium transition-colors">
                   Sign up
                 </Link>
               </p>
-              <p className="text-xs text-gray-500 mt-4">
+              <p className="text-xs text-gray-600 mt-4">
                 By continuing, you agree to our{' '}
-                <Link href="#" className="text-gray-400 hover:text-gray-300 underline">
+                <Link href="#" className="text-gray-500 hover:text-gray-400 underline">
                   Terms of Service
                 </Link>
                 {' '}and{' '}
-                <Link href="#" className="text-gray-400 hover:text-gray-300 underline">
+                <Link href="#" className="text-gray-500 hover:text-gray-400 underline">
                   Privacy Policy
                 </Link>
               </p>

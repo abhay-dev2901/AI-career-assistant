@@ -33,7 +33,7 @@ export function FloatingLabelInput({
 
   return (
     <div className="relative group">
-      {/* Input field with premium styling */}
+      {/* Input field with minimal styling */}
       <input
         id={name}
         name={name}
@@ -45,21 +45,21 @@ export function FloatingLabelInput({
         onBlur={() => setIsFocused(false)}
         autoComplete={autoComplete}
         required={required}
-        className="peer w-full h-12 rounded-lg border border-white/15 bg-white/7 px-4 pt-6 pb-2 text-white placeholder-transparent text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-white/30 transition-all duration-200 hover:border-white/20 group-hover:bg-white/10"
+        className="peer w-full h-11 rounded-lg border border-white/5 bg-white/3 px-4 pt-5 pb-1 text-white placeholder-transparent text-sm focus:outline-none focus:ring-1 focus:ring-blue-500/20 focus:border-blue-500/40 transition-all duration-200"
       />
 
       {/* Floating label */}
       <label
         htmlFor={name}
-        className={`absolute left-4 text-sm font-medium text-gray-400 transition-all duration-200 pointer-events-none
+        className={`absolute left-4 transition-all duration-200 pointer-events-none
           ${
             isFocused || hasValue
-              ? 'top-2 text-xs text-blue-400'
-              : 'top-3.5 text-gray-500'
+              ? 'top-2 text-xs text-blue-500'
+              : 'top-3 text-sm text-gray-600'
           }
         `}
       >
-        {label} {required && <span className="text-red-400">*</span>}
+        {label} {required && <span className="text-red-500">*</span>}
       </label>
 
       {/* Password visibility toggle */}
@@ -67,7 +67,7 @@ export function FloatingLabelInput({
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300 transition-colors duration-200 focus:outline-none"
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-400 transition-colors duration-200 focus:outline-none"
           tabIndex={-1}
         >
           {showPassword ? (

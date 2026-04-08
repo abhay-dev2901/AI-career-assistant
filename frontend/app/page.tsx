@@ -17,7 +17,7 @@ export default function HomePage() {
 
   // Otherwise show landing page
   return (
-    <div className="min-h-screen w-full overflow-hidden">
+    <div className="min-h-screen w-full overflow-hidden bg-black">
       <GradientBackground />
       
       <div className="relative z-10">
@@ -27,17 +27,17 @@ export default function HomePage() {
         <section className="min-h-screen flex flex-col items-center justify-center px-6 pt-20 pb-12">
           <div className="max-w-4xl mx-auto text-center space-y-8 animate-fade-in-up">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-2 text-sm text-blue-300 backdrop-blur">
-              <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/5 px-4 py-2 text-sm text-blue-400">
+              <span className="w-2 h-2 rounded-full bg-blue-500" />
               Now available for all users
             </div>
 
             {/* Headline */}
             <div>
-              <h1 className="text-6xl lg:text-7xl font-bold text-white leading-tight mb-6 text-balance">
+              <h1 className="text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 text-balance">
                 Build faster. Ship smarter.
               </h1>
-              <p className="text-xl text-gray-400 leading-relaxed max-w-2xl mx-auto text-balance">
+              <p className="text-lg text-gray-500 leading-relaxed max-w-2xl mx-auto text-balance">
                 Your AI-powered career assistant that helps you land your dream job with smarter job searches, tailored resume optimization, and interview mastery.
               </p>
             </div>
@@ -46,13 +46,13 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
                 href="/signup"
-                className="px-8 py-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25"
+                className="px-8 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all duration-200"
               >
                 Get Started
               </a>
               <a
                 href="/login"
-                className="px-8 py-3 rounded-full border border-white/20 text-white font-semibold hover:bg-white/10 hover:border-white/40 transition-all duration-200"
+                className="px-8 py-3 rounded-lg border border-white/10 text-white font-medium hover:border-white/20 transition-all duration-200"
               >
                 Explore Features
               </a>
@@ -68,7 +68,7 @@ export default function HomePage() {
               <h2 className="text-4xl lg:text-5xl font-bold text-white">
                 Powerful features for your success
               </h2>
-              <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                 Everything you need to accelerate your career journey
               </p>
             </div>
@@ -105,8 +105,8 @@ export default function HomePage() {
                 { value: '100%', label: 'Secure' },
               ].map((stat, i) => (
                 <div key={i} className="text-center space-y-2">
-                  <p className="text-4xl lg:text-5xl font-bold text-blue-400">{stat.value}</p>
-                  <p className="text-gray-400">{stat.label}</p>
+                  <p className="text-4xl lg:text-5xl font-bold text-blue-500">{stat.value}</p>
+                  <p className="text-gray-600">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -120,14 +120,14 @@ export default function HomePage() {
               <h2 className="text-4xl lg:text-5xl font-bold text-white">
                 Ready to transform your career?
               </h2>
-              <p className="text-xl text-gray-400">
+              <p className="text-lg text-gray-600">
                 Join thousands of professionals who are already using CareerAI
               </p>
             </div>
 
             <a
               href="/signup"
-              className="inline-block px-8 py-4 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25"
+              className="inline-block px-8 py-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all duration-200"
             >
               Start Your Journey
             </a>
@@ -135,17 +135,17 @@ export default function HomePage() {
         </section>
 
         {/* Footer */}
-        <footer className="relative border-t border-white/10 py-12 px-6">
+        <footer className="relative border-t border-white/5 py-12 px-6">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-            <p className="text-gray-500 text-sm">© 2024 CareerAI. All rights reserved.</p>
+            <p className="text-gray-600 text-sm">© 2024 CareerAI. All rights reserved.</p>
             <div className="flex gap-6">
-              <a href="#" className="text-gray-500 hover:text-gray-400 text-sm transition-colors">
+              <a href="#" className="text-gray-600 hover:text-gray-500 text-sm transition-colors">
                 Terms
               </a>
-              <a href="#" className="text-gray-500 hover:text-gray-400 text-sm transition-colors">
+              <a href="#" className="text-gray-600 hover:text-gray-500 text-sm transition-colors">
                 Privacy
               </a>
-              <a href="#" className="text-gray-500 hover:text-gray-400 text-sm transition-colors">
+              <a href="#" className="text-gray-600 hover:text-gray-500 text-sm transition-colors">
                 Contact
               </a>
             </div>
