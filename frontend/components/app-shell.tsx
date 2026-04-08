@@ -7,7 +7,7 @@ import { AppHeader } from "@/components/app-header"
 import { ThemeProvider } from "@/components/theme-provider"
 import { useAuth } from '@/context/auth-context'
 
-const PUBLIC_ROUTES = ['/login', '/signup']
+const PUBLIC_ROUTES = ['/', '/login', '/signup']
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const router = useRouter()

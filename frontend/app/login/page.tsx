@@ -5,8 +5,10 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/auth-context'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { LogIn } from 'lucide-react'
+import { GradientBackground } from '@/components/auth/gradient-background'
+import { AuthCard } from '@/components/auth/auth-card'
+import { SocialButton } from '@/components/auth/social-button'
+import { Github, Chrome, Apple } from 'lucide-react'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -42,28 +44,54 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="auth-hero-bg relative z-0 flex min-h-screen items-center justify-center p-4">
-      <div className="relative z-10 w-full max-w-md">
-        <Card className="auth-glass-panel border-0 shadow-none">
-          <CardHeader className="space-y-1">
-            <CardTitle className="flex items-center gap-2 text-2xl font-bold text-[#f1f5f9]">
-              <LogIn className="h-6 w-6 text-[#3b82f6]" />
-              Welcome Back
-            </CardTitle>
-            <CardDescription className="text-[#94a3b8]">
-              Sign in to your AI Career Assistant account
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="min-h-screen w-full overflow-hidden">
+      <GradientBackground />
+      
+      <div className="relative z-10 grid lg:grid-cols-2 gap-0">
+        {/* Left Panel - Branding & Marketing */}
+        <div className="hidden lg:flex flex-col justify-between p-12 border-r border-white/10">
+          <div>
+            <Link href="/" className="flex items-center gap-2 font-bold text-lg text-white mb-16">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold">CA</span>
+              </div>
+              CareerAI
+            </Link>
+            
+            <div className="max-w-sm">
+              <h2 className="text-4xl font-bold text-white mb-4">
+                Accelerate your career
+              </h2>
+              <p className="text-gray-400 text-lg leading-relaxed">
+                AI-powered insights for smarter job searches, tailored resume optimization, and interview mastery.
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <div className="border-t border-white/10 pt-6">
+              <p className="text-sm text-gray-500 mb-4">Trusted by professionals</p>
+              <div className="flex gap-2">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400/20 to-blue-600/20 border border-white/10" />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Panel - Auth Form */}
+        <div className="flex flex-col items-center justify-center p-6 lg:p-0 lg:pr-12 min-h-screen">
+          <AuthCard title="Welcome back" description="Sign in to your account to continue">
+            <form onSubmit={handleSubmit} className="space-y-5">
               {error && (
-                <div className="p-3 bg-destructive/10 border border-destructive text-destructive rounded-md text-sm">
+                <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
                   {error}
                 </div>
               )}
 
               <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-medium text-[#94a3b8]">
+                <label htmlFor="email" className="text-sm font-medium text-white">
                   Email Address
                 </label>
                 <input
@@ -73,23 +101,28 @@ export default function LoginPage() {
                   placeholder="you@example.com"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full rounded-[8px] border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.05)] px-3 py-2 text-[#f1f5f9] placeholder:text-[#64748b] transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#3b82f6]"
+                  className="w-full h-11 rounded-lg border border-white/10 bg-white/5 px-4 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
                   required
                 />
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="password" className="text-sm font-medium text-[#94a3b8]">
-                  Password
-                </label>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="password" className="text-sm font-medium text-white">
+                    Password
+                  </label>
+                  <Link href="#" className="text-sm text-blue-400 hover:text-blue-300 transition-colors">
+                    Forgot password?
+                  </Link>
+                </div>
                 <input
                   id="password"
                   name="password"
                   type="password"
-                  placeholder="••••••"
+                  placeholder="••••••••"
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full rounded-[8px] border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.05)] px-3 py-2 text-[#f1f5f9] placeholder:text-[#64748b] transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#3b82f6]"
+                  className="w-full h-11 rounded-lg border border-white/10 bg-white/5 px-4 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all"
                   required
                 />
               </div>
@@ -97,25 +130,47 @@ export default function LoginPage() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full rounded-[8px] transition-all duration-200 ease-in-out"
+                className="w-full h-11 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium rounded-lg transition-all duration-200 disabled:opacity-50"
               >
                 {loading ? 'Signing in...' : 'Sign In'}
               </Button>
             </form>
 
-            <div className="mt-4 text-center">
-              <p className="text-sm text-[#64748b]">
-                Don&apos;t have an account?{" "}
-                <Link
-                  href="/signup"
-                  className="font-medium text-[#60a5fa] transition-colors duration-200 hover:text-[#93c5fd] hover:underline"
-                >
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-white/10" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-slate-900 text-gray-400">Or continue with</span>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <SocialButton icon={Chrome} provider="google" label="Continue with Google" />
+              <SocialButton icon={Github} provider="github" label="Continue with GitHub" />
+              <SocialButton icon={Apple} provider="apple" label="Continue with Apple" />
+            </div>
+
+            <div className="mt-6 text-center">
+              <p className="text-sm text-gray-400">
+                Don&apos;t have an account?{' '}
+                <Link href="/signup" className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
                   Sign up
                 </Link>
               </p>
+              <p className="text-xs text-gray-500 mt-4">
+                By continuing, you agree to our{' '}
+                <Link href="#" className="text-gray-400 hover:text-gray-300 underline">
+                  Terms of Service
+                </Link>
+                {' '}and{' '}
+                <Link href="#" className="text-gray-400 hover:text-gray-300 underline">
+                  Privacy Policy
+                </Link>
+              </p>
             </div>
-          </CardContent>
-        </Card>
+          </AuthCard>
+        </div>
       </div>
     </div>
   )
