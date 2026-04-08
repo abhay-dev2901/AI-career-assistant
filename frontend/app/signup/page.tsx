@@ -4,10 +4,13 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/auth-context'
-import { Button } from '@/components/ui/button'
 import { GradientBackground } from '@/components/auth/gradient-background'
 import { AuthCard } from '@/components/auth/auth-card'
 import { SocialButton } from '@/components/auth/social-button'
+import { FloatingLabelInput } from '@/components/auth/floating-label-input'
+import { GlowButton } from '@/components/auth/glow-button'
+import { FeatureCarousel } from '@/components/auth/feature-carousel'
+import { FloatingDashboardPreview } from '@/components/auth/floating-dashboard-preview'
 import { Github, Chrome, Apple } from 'lucide-react'
 
 export default function SignupPage() {
@@ -57,33 +60,47 @@ export default function SignupPage() {
       <GradientBackground />
       
       <div className="relative z-10 grid lg:grid-cols-2 gap-0">
-        {/* Left Panel - Branding & Marketing */}
+        {/* Left Panel - Branding & Marketing with Features */}
         <div className="hidden lg:flex flex-col justify-between p-12 border-r border-white/10">
-          <div>
-            <Link href="/" className="flex items-center gap-2 font-bold text-lg text-white mb-16">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold">CA</span>
+          <div className="space-y-12">
+            {/* Branding */}
+            <Link href="/" className="flex items-center gap-3 font-bold text-lg text-white hover:opacity-80 transition-opacity w-fit">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/30">
+                <span className="text-white font-bold text-sm">CA</span>
               </div>
-              CareerAI
+              <span>CareerAI</span>
             </Link>
             
-            <div className="max-w-sm">
-              <h2 className="text-4xl font-bold text-white mb-4">
-                Start your journey today
+            {/* Hero text */}
+            <div className="max-w-sm space-y-4 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              <h2 className="text-5xl font-bold text-white leading-tight">
+                Join thousands of professionals
               </h2>
-              <p className="text-gray-400 text-lg leading-relaxed">
-                Join thousands of professionals building better careers with AI-powered insights.
+              <p className="text-gray-400 text-base leading-relaxed">
+                Build your dream career with AI-powered job matching, resume optimization, and interview prep.
               </p>
+            </div>
+
+            {/* Feature carousel */}
+            <div className="animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+              <FeatureCarousel />
             </div>
           </div>
 
-          <div className="space-y-6">
+          {/* Bottom section with preview and social proof */}
+          <div className="space-y-8">
+            {/* Floating dashboard preview */}
+            <FloatingDashboardPreview />
+
+            {/* Social proof */}
             <div className="border-t border-white/10 pt-6">
-              <p className="text-sm text-gray-500 mb-4">Featured in</p>
-              <div className="flex gap-4 opacity-60">
-                <span className="text-gray-400 text-sm">Tech Today</span>
-                <span className="text-gray-400 text-sm">Career News</span>
-                <span className="text-gray-400 text-sm">Dev Hub</span>
+              <p className="text-xs text-gray-500 mb-4 uppercase tracking-widest">Featured in leading publications</p>
+              <div className="flex gap-3">
+                {['Tech Today', 'Career News', 'Dev Hub'].map((pub, i) => (
+                  <span key={i} className="px-3 py-1.5 rounded-full text-xs text-gray-400 border border-white/15 bg-white/5">
+                    {pub}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
@@ -92,102 +109,73 @@ export default function SignupPage() {
         {/* Right Panel - Auth Form */}
         <div className="flex flex-col items-center justify-center p-6 lg:p-0 lg:pr-12 min-h-screen">
           <AuthCard title="Create account" description="Start building your dream career">
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-5">
               {error && (
-                <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+                <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/40 text-red-300 text-sm animate-pulse">
                   {error}
                 </div>
               )}
 
               <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-2">
-                  <label htmlFor="firstName" className="text-sm font-medium text-white">
-                    First Name
-                  </label>
-                  <input
-                    id="firstName"
-                    name="firstName"
-                    type="text"
-                    placeholder="John"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    className="w-full h-10 rounded-lg border border-white/10 bg-white/5 px-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
-                    required
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="lastName" className="text-sm font-medium text-white">
-                    Last Name
-                  </label>
-                  <input
-                    id="lastName"
-                    name="lastName"
-                    type="text"
-                    placeholder="Doe"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    className="w-full h-10 rounded-lg border border-white/10 bg-white/5 px-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-medium text-white">
-                  Email Address
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="you@example.com"
-                  value={formData.email}
+                <FloatingLabelInput
+                  label="First Name"
+                  name="firstName"
+                  type="text"
+                  placeholder="John"
+                  value={formData.firstName}
                   onChange={handleChange}
-                  className="w-full h-11 rounded-lg border border-white/10 bg-white/5 px-4 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
                   required
+                  autoComplete="given-name"
+                />
+
+                <FloatingLabelInput
+                  label="Last Name"
+                  name="lastName"
+                  type="text"
+                  placeholder="Doe"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  required
+                  autoComplete="family-name"
                 />
               </div>
 
-              <div className="space-y-2">
-                <label htmlFor="password" className="text-sm font-medium text-white">
-                  Password
-                </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="w-full h-11 rounded-lg border border-white/10 bg-white/5 px-4 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
-                  required
-                />
-              </div>
+              <FloatingLabelInput
+                label="Email Address"
+                name="email"
+                type="email"
+                placeholder="you@example.com"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                autoComplete="email"
+              />
 
-              <div className="space-y-2">
-                <label htmlFor="passwordConfirm" className="text-sm font-medium text-white">
-                  Confirm Password
-                </label>
-                <input
-                  id="passwordConfirm"
-                  name="passwordConfirm"
-                  type="password"
-                  placeholder="••••••••"
-                  value={formData.passwordConfirm}
-                  onChange={handleChange}
-                  className="w-full h-11 rounded-lg border border-white/10 bg-white/5 px-4 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
-                  required
-                />
-              </div>
+              <FloatingLabelInput
+                label="Password"
+                name="password"
+                type="password"
+                placeholder="••••••••"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                autoComplete="new-password"
+              />
 
-              <Button
-                type="submit"
-                disabled={loading}
-                className="w-full h-11 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium rounded-lg transition-all duration-200 disabled:opacity-50 mt-2"
-              >
+              <FloatingLabelInput
+                label="Confirm Password"
+                name="passwordConfirm"
+                type="password"
+                placeholder="••••••••"
+                value={formData.passwordConfirm}
+                onChange={handleChange}
+                required
+                autoComplete="new-password"
+              />
+
+              <GlowButton type="submit" isLoading={loading} className="w-full mt-2">
                 {loading ? 'Creating account...' : 'Create Account'}
-              </Button>
+              </GlowButton>
             </form>
 
             <div className="relative my-6">

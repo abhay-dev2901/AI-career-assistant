@@ -164,6 +164,64 @@
   }
 }
 
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes glow-float {
+  0%, 100% {
+    transform: translateY(0px);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translateY(-30px);
+    opacity: 0.25;
+  }
+}
+
+@keyframes spin-loader {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-success {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes slide-in-bottom {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -207,12 +265,94 @@
     opacity: 0;
   }
 
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-glow-float {
+    animation: glow-float 7s ease-in-out infinite;
+  }
+
+  .animate-spin-loader {
+    animation: spin-loader 1.5s linear infinite;
+  }
+
+  .animate-pulse-success {
+    animation: pulse-success 2s ease-in-out infinite;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s infinite;
+    background-size: 1000px 100%;
+  }
+
   .animation-delay-2000 {
     animation-delay: 2s;
   }
 
   .animation-delay-4000 {
     animation-delay: 4s;
+  }
+
+  .animation-delay-1000 {
+    animation-delay: 1s;
+  }
+
+  .animation-delay-3000 {
+    animation-delay: 3s;
+  }
+
+  /* Glass morphism utilities */
+  .glass-blur-sm {
+    @apply backdrop-blur-sm;
+  }
+
+  .glass-blur {
+    @apply backdrop-blur;
+  }
+
+  .glass-blur-lg {
+    @apply backdrop-blur-lg;
+  }
+
+  .glass-blur-xl {
+    @apply backdrop-blur-xl;
+  }
+
+  .glass-blur-2xl {
+    @apply backdrop-blur-2xl;
+  }
+
+  .glass-border {
+    @apply border border-white/10;
+  }
+
+  .glass-border-glow {
+    @apply border border-white/20 shadow-lg shadow-blue-500/10;
+  }
+
+  .glass-bg {
+    @apply bg-white/5;
+  }
+
+  .glass-bg-lg {
+    @apply bg-white/8;
+  }
+
+  .glow-sm {
+    @apply shadow-lg shadow-blue-500/20;
+  }
+
+  .glow {
+    @apply shadow-xl shadow-blue-500/25;
+  }
+
+  .glow-lg {
+    @apply shadow-2xl shadow-blue-500/30;
+  }
+
+  .hover-glow {
+    @apply transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/30;
   }
 
   .transition-glass {
