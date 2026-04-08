@@ -31,71 +31,68 @@ export function AppHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-[rgba(255,255,255,0.06)] bg-[rgba(10,10,15,0.8)] px-6 backdrop-blur-[20px] transition-all duration-200 ease-in-out">
+    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-white/10 bg-gradient-to-r from-slate-950/60 via-slate-900/60 to-slate-950/60 px-6 backdrop-blur-2xl transition-all duration-300 ease-in-out">
       <div className="flex items-center gap-4">
-        <h1 className="text-lg font-semibold text-[#f1f5f9]">
+        <h1 className="text-lg font-semibold text-white">
           Welcome back, {user?.firstName || "User"}
         </h1>
       </div>
 
       <div className="flex items-center gap-3">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="relative rounded-[8px] text-[#64748b] transition-all duration-200 ease-in-out hover:bg-[rgba(255,255,255,0.05)] hover:text-[#f1f5f9]"
+        <button
+          className="relative p-2 rounded-lg text-gray-500 transition-all duration-300 hover:text-gray-300 hover:bg-white/10 group"
         >
           <Bell className="h-5 w-5" />
           <span
-            className="absolute right-1 top-1 h-2 w-2 rounded-full bg-[#3b82f6] shadow-[0_0_8px_2px_rgba(59,130,246,0.7)]"
+            className="absolute right-1 top-1 h-2 w-2 rounded-full bg-blue-400 shadow-lg shadow-blue-500/50 animate-pulse"
             aria-hidden
           />
           <span className="sr-only">Notifications</span>
-        </Button>
+        </button>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="relative h-9 w-9 rounded-[8px] transition-all duration-200 ease-in-out"
+            <button
+              className="relative h-9 w-9 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 group"
             >
-              <Avatar className="h-9 w-9 rounded-[8px]">
+              <Avatar className="h-9 w-9 rounded-lg">
                 <AvatarImage src="/avatar.png" alt="User" />
-                <AvatarFallback className="rounded-[8px] bg-[#3b82f6] text-white">
+                <AvatarFallback className="rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 text-white font-semibold">
                   {getInitials(user?.firstName, user?.lastName)}
                 </AvatarFallback>
               </Avatar>
-            </Button>
+            </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-56 rounded-[12px] border-[rgba(255,255,255,0.08)] bg-[#0d0d14]"
+            className="w-56 rounded-xl border-white/15 bg-gradient-to-br from-slate-900/90 to-slate-950/90 backdrop-blur-xl"
             align="end"
             forceMount
           >
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium text-[#f1f5f9]">
+                <p className="text-sm font-medium text-white">
                   {user?.firstName && user?.lastName
                     ? `${user.firstName} ${user.lastName}`
                     : "User"}
                 </p>
-                <p className="text-xs text-[#64748b]">
+                <p className="text-xs text-gray-500">
                   {user?.email || "user@example.com"}
                 </p>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator className="bg-[rgba(255,255,255,0.08)]" />
-            <DropdownMenuItem className="rounded-[8px] focus:bg-[rgba(255,255,255,0.05)]">
+            <DropdownMenuSeparator className="bg-white/10" />
+            <DropdownMenuItem className="rounded-lg focus:bg-white/10 cursor-pointer">
               Profile
             </DropdownMenuItem>
-            <DropdownMenuItem className="rounded-[8px] focus:bg-[rgba(255,255,255,0.05)]">
+            <DropdownMenuItem className="rounded-lg focus:bg-white/10 cursor-pointer">
               Billing
             </DropdownMenuItem>
-            <DropdownMenuItem className="rounded-[8px] focus:bg-[rgba(255,255,255,0.05)]">
+            <DropdownMenuItem className="rounded-lg focus:bg-white/10 cursor-pointer">
               Settings
             </DropdownMenuItem>
-            <DropdownMenuSeparator className="bg-[rgba(255,255,255,0.08)]" />
+            <DropdownMenuSeparator className="bg-white/10" />
             <DropdownMenuItem
-              className="rounded-[8px] focus:bg-[rgba(255,255,255,0.05)]"
+              className="rounded-lg focus:bg-white/10 cursor-pointer text-red-400"
               onClick={handleLogout}
             >
               Log out
