@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { useAuth } from '@/context/auth-context'
 
 const PUBLIC_ROUTES = ['/', '/login', '/signup']
+const AUTH_ROUTES = ['/login', '/signup']
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const router = useRouter()
@@ -23,6 +24,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
     // Check if route is public
     const isPublicRoute = PUBLIC_ROUTES.includes(pathname)
+    const isAuthRoute = AUTH_ROUTES.includes(pathname)
 
     if (!isAuthenticated && !isPublicRoute) {
       // Redirect to login if not authenticated and on protected route
@@ -30,7 +32,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       return
     }
 
-    if (isAuthenticated && isPublicRoute) {
+    if (isAuthenticated && isAuthRoute) {
       // Redirect to dashboard if authenticated and on auth route
       router.push('/')
       return

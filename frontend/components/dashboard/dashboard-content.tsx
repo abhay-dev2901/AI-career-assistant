@@ -84,7 +84,7 @@ export function DashboardContent() {
     type: string
     message: string
     time: string
-  }[] = []= []
+  }[] = []
 
   useEffect(() => {
     if (user) {
@@ -116,20 +116,59 @@ export function DashboardContent() {
   return (
     <div className="space-y-6">
       <div
-        className="animate-fade-in-up relative overflow-hidden rounded-lg border border-white/5 p-8 transition-all duration-200"
+        className="animate-fade-in-up premium-shimmer-border premium-hover-lift relative overflow-hidden rounded-[14px] border border-white/5 p-8 transition-all duration-200"
         style={{
           background: '#0B1220',
         }}
       >
+        {/* Premium ambient gradient */}
+        <div className="pointer-events-none absolute -top-20 -right-20 h-[260px] w-[260px] rounded-full bg-blue-500/10 blur-3xl animate-blob-drift" />
+        <div className="pointer-events-none absolute -bottom-24 -left-24 h-[320px] w-[320px] rounded-full bg-blue-500/5 blur-3xl animate-blob-drift animation-delay-2000" />
+
         <div className="flex items-center justify-between gap-6">
           <div className="space-y-3">
-            <h2 className="text-3xl font-bold text-white">
-              Good morning, {user?.firstName || "User"}!
+            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/5 px-3 py-1 text-xs text-blue-300">
+              <span className="h-2 w-2 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.6)]" />
+              Today’s sprint
+            </div>
+            <h2 className="text-3xl font-bold text-white text-balance">
+              Welcome back, {user?.firstName || "User"}.
             </h2>
-            <p className="max-w-xl text-sm text-gray-500">
+            <p className="max-w-xl text-sm text-gray-400 text-balance">
               {user?.bio ||
-                "Your career journey starts here. Let's make today count."}
+                "Here’s a focused path for today: pick a target role, tailor your resume, and rehearse your best answers."}
             </p>
+
+            <div className="mt-5 grid gap-3 sm:grid-cols-3">
+              {[
+                {
+                  label: "1) Find roles",
+                  desc: "Shortlist good-fit jobs",
+                  href: "/jobs",
+                },
+                {
+                  label: "2) Tailor resume",
+                  desc: "Match skills to JD",
+                  href: "/resume",
+                },
+                {
+                  label: "3) Practice",
+                  desc: "Answer with structure",
+                  href: "/interview",
+                },
+              ].map((step) => (
+                <Link
+                  key={step.label}
+                  href={step.href}
+                  className="group rounded-[12px] border border-white/5 bg-white/[0.02] p-3 transition-all duration-200 hover:border-white/10 hover:bg-white/[0.03]"
+                >
+                  <p className="text-xs font-semibold text-white">{step.label}</p>
+                  <p className="mt-1 text-[11px] text-gray-600 group-hover:text-gray-500">
+                    {step.desc}
+                  </p>
+                </Link>
+              ))}
+            </div>
           </div>
           <div className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-blue-600/20 md:flex">
             <Sparkles className="h-6 w-6 text-blue-400" />
@@ -142,13 +181,20 @@ export function DashboardContent() {
           <div
             key={stat.title}
             className={cn(
-              "animate-fade-in-up relative overflow-hidden rounded-lg border border-white/5 bg-[#0B1220] p-6 transition-all duration-200",
+              "animate-fade-in-up premium-hover-lift relative overflow-hidden rounded-[14px] border border-white/5 bg-[#0B1220] p-6 transition-all duration-200",
               "hover:border-white/10"
             )}
             style={{
               animationDelay: `${(index + 1) * 100}ms`,
             }}
           >
+            <div
+              className="pointer-events-none absolute inset-x-0 -top-10 h-24 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+              style={{
+                background:
+                  "radial-gradient(60% 70% at 50% 30%, rgba(59,130,246,0.12), transparent 70%)",
+              }}
+            />
             <div className="flex items-center justify-between">
               <div className="space-y-2">
                 <p className="text-xs font-medium uppercase tracking-wider text-gray-600">
@@ -225,8 +271,8 @@ export function DashboardContent() {
                 key={action.title}
                 href={action.href}
                 className={cn(
-                  "animate-fade-in-up flex w-full items-center justify-between rounded-lg border border-white/5 bg-[#0B1220] px-4 py-3 transition-all duration-200",
-                  "hover:border-white/10"
+                  "group animate-fade-in-up flex w-full items-center justify-between rounded-[14px] border border-white/5 bg-[#0B1220] px-4 py-3 transition-all duration-200",
+                  "hover:border-white/10 hover:bg-white/[0.02]"
                 )}
                 style={{ animationDelay: `${600 + index * 100}ms` }}
               >
