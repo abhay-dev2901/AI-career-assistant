@@ -8,9 +8,10 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
 export const metadata: Metadata = {
-  title: 'CareerAI - Your AI Career Assistant',
-  description: 'AI-powered career assistant for job search, resume matching, and interview preparation',
+  title: 'CareerAI - AI-Powered Career Assistant',
+  description: 'Accelerate your career with AI-powered insights for smarter job searches, tailored resume optimization, and interview mastery',
   generator: 'v0.app',
+  keywords: 'career assistant, job search, resume builder, interview prep, AI careers',
 }
 
 export const viewport: Viewport = {

@@ -24,13 +24,13 @@ export function AppSidebar() {
   const pathname = usePathname()
 
   return (
-    <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r border-[rgba(255,255,255,0.06)] bg-[#0d0d14]">
+    <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r border-white/5 bg-black">
       <div className="flex h-full flex-col">
-        <div className="flex h-16 items-center gap-2 border-b border-[rgba(255,255,255,0.06)] px-6">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#3b82f6]/20 transition-all duration-200 ease-in-out">
-            <Sparkles className="h-4 w-4 text-[#3b82f6]" />
+        <div className="flex h-16 items-center gap-3 border-b border-white/5 px-6">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 transition-all duration-200">
+            <Sparkles className="h-5 w-5 text-white" />
           </div>
-          <span className="text-xl font-bold text-[#f1f5f9]">CareerAI</span>
+          <span className="text-lg font-bold text-white">CareerAI</span>
         </div>
 
         <nav className="flex-1 space-y-1 px-3 py-4">
@@ -41,23 +41,26 @@ export function AppSidebar() {
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  "relative flex items-center gap-3 rounded-[12px] px-3 py-2.5 text-sm font-medium text-[#64748b] transition-all duration-200 ease-in-out",
-                  "hover:bg-[rgba(255,255,255,0.05)] hover:text-[#f1f5f9]",
-                  isActive &&
-                    "bg-[rgba(59,130,246,0.1)] text-[#f1f5f9] before:absolute before:left-0 before:top-1/2 before:h-[60%] before:w-[3px] before:-translate-y-1/2 before:rounded-full before:bg-[#3b82f6] before:content-['']"
+                  "relative flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-all duration-200",
+                  isActive
+                    ? "bg-blue-600/20 text-white"
+                    : "text-gray-500 hover:text-gray-300 hover:bg-white/5"
                 )}
               >
                 <item.icon className="h-5 w-5 shrink-0" />
-                {item.name}
+                <span>{item.name}</span>
+                {isActive && (
+                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 rounded-r-full bg-blue-500" />
+                )}
               </Link>
             )
           })}
         </nav>
 
-        <div className="border-t border-[rgba(255,255,255,0.06)] p-4">
-          <div className="rounded-[12px] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] p-4 backdrop-blur-[12px] transition-all duration-200 ease-in-out">
-            <p className="text-xs font-medium text-[#f1f5f9]">Pro Tip</p>
-            <p className="mt-1 text-xs text-[#64748b]">
+        <div className="border-t border-white/5 p-4">
+          <div className="rounded-lg border border-white/5 bg-[#0B1220] p-4 transition-all duration-200 hover:border-white/10">
+            <p className="text-xs font-medium text-blue-400">Pro Tip</p>
+            <p className="mt-2 text-xs text-gray-500 leading-relaxed">
               Upload your resume to get personalized job recommendations.
             </p>
           </div>
